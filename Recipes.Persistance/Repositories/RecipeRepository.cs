@@ -5,7 +5,7 @@ using Recipes.Persistance.Repositories.Core;
 
 namespace Recipes.Persistance.Repositories
 {
-    public class RecipeRepository : AgregateRootRepository<Recipe>, IRecipeRepository
+    public class RecipeRepository : AggregateRootRepository<Recipe>, IRecipeRepository
     {
         public RecipeRepository(ApplicationDbContext applicationDbContext) 
             : base(applicationDbContext)

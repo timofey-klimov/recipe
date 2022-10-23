@@ -3,10 +3,10 @@ using Recipes.Domain.Core;
 
 namespace Recipes.Persistance.Repositories.Core
 {
-    public abstract class AgregateRootRepository<T> : EntityRepository<T>, IAgregateRootRepository<T>
+    public abstract class AggregateRootRepository<T> : EntityRepository<T>, IAggregateRootRepository<T>
         where T : AggregateRoot
     {
-        protected AgregateRootRepository(ApplicationDbContext applicationDbContext) 
+        protected AggregateRootRepository(ApplicationDbContext applicationDbContext) 
             : base(applicationDbContext)
         {
         }
