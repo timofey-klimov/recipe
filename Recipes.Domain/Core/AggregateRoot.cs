@@ -1,11 +1,11 @@
 ﻿namespace Recipes.Domain.Core
 {
-    public abstract class AgregateRoot : Entity
+    public abstract class AggregateRoot : Entity
     {
         private List<IDomainEvent> _events;
         public IReadOnlyCollection<IDomainEvent> Events => _events;
 
-        public AgregateRoot()
+        public AggregateRoot()
         {
             _events = new List<IDomainEvent>();
         }

@@ -4,7 +4,7 @@ using Recipes.Domain.ValueObjects;
 
 namespace Recipes.Domain.Entities
 {
-    public class Recipe : AgregateRoot
+    public class Recipe : AggregateRoot
     {
         public static string EntityName => nameof(Recipe);
         private Recipe() { }

@@ -4,7 +4,7 @@ using Recipes.Domain.Core;
 namespace Recipes.Persistance.Repositories.Core
 {
     public abstract class AgregateRootRepository<T> : EntityRepository<T>, IAgregateRootRepository<T>
-        where T : AgregateRoot
+        where T : AggregateRoot
     {
         protected AgregateRootRepository(ApplicationDbContext applicationDbContext) 
             : base(applicationDbContext)
