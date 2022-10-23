@@ -1,4 +1,4 @@
-﻿namespace Recipes.Domain.Core
+﻿namespace Recipes.Domain.Core.Repositories
 {
     public interface IUnitOfWork
     {

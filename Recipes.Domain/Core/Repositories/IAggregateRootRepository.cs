@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Recipes.Domain.Core
+﻿namespace Recipes.Domain.Core.Repositories
 {
     public interface IAggregateRootRepository<T> : IEntityRepository<T>
         where T : AggregateRoot
