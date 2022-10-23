@@ -4,7 +4,7 @@
         int? Id,
         string Title,
         string CookingProcess,
-        IEnumerable<HashTagDto> HashTags, 
+        IEnumerable<HashtagDto> HashTags, 
         IEnumerable<IngredientDto> Ingredients);
     
 }

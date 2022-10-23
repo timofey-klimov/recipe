@@ -1,4 +1,4 @@
 ﻿namespace Recipes.Contracts
 {
-    public record HashTagDto(string Title);
+    public record HashtagDto(string Title);
 }

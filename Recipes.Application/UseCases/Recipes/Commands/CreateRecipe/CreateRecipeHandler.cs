@@ -2,8 +2,8 @@
 using Recipes.Contracts;
 using Recipes.Domain.Core;
 using Recipes.Domain.Entities;
-using Recipes.Domain.Exceptions.Core;
 using Recipes.Domain.Repositories;
+using Recipes.Domain.Shared;
 using Recipes.Domain.ValueObjects;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
@@ -34,7 +34,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
                 ingridients!);
 
             if (!recipeResult.IsSuccess)
-                DomainException.ThrowBuisnessError(recipeResult.Error);
+                Guard.ThrowBuisnessError(recipeResult.Error);
 
             _recipeRepository.Add(recipeResult.Entity);
 

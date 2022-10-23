@@ -10,6 +10,7 @@ namespace Recipes.Application.DependencyInjection
         public static IServiceCollection UseApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }
     } 
