@@ -25,6 +25,8 @@ namespace Recipes.Domain.Entities
 
         public string Password { get; private set; }
 
+        public DateTime CreateDate { get; private set; }
+
         public static async Task<Result<User>> CreateAsync(string login, 
             string email, 
             string password, 

@@ -1,4 +1,5 @@
 ﻿using Recipes.Domain.Core;
+using Recipes.Domain.Core.Repositories;
 
 namespace Recipes.Persistance.Repositories.Core
 {
