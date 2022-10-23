@@ -1,7 +1,7 @@
 ﻿namespace Recipes.Contracts
 {
     public record RecipeDto(
-        int Id,
+        int? Id,
         string Title,
         string CookingProcess,
         IEnumerable<HashTagDto> HashTags, 

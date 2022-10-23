@@ -4,12 +4,12 @@
 
 namespace Recipes.Persistance.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Recipes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Recipe",
+                name: "Recipes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,7 +19,7 @@ namespace Recipes.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipe", x => x.Id);
+                    table.PrimaryKey("PK_Recipes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,15 +35,15 @@ namespace Recipes.Persistance.Migrations
                 {
                     table.PrimaryKey("PK_Hashtag", x => new { x.RecipeId, x.Id });
                     table.ForeignKey(
-                        name: "FK_Hashtag_Recipe_RecipeId",
+                        name: "FK_Hashtag_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ingredient",
+                name: "Ingredients",
                 columns: table => new
                 {
                     RecipeId = table.Column<int>(type: "int", nullable: false),
@@ -54,11 +54,11 @@ namespace Recipes.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ingredient", x => new { x.RecipeId, x.Id });
+                    table.PrimaryKey("PK_Ingredients", x => new { x.RecipeId, x.Id });
                     table.ForeignKey(
-                        name: "FK_Ingredient_Recipe_RecipeId",
+                        name: "FK_Ingredients_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -69,8 +69,8 @@ namespace Recipes.Persistance.Migrations
                 column: "Title");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ingredient_Name",
-                table: "Ingredient",
+                name: "IX_Ingredients_Name",
+                table: "Ingredients",
                 column: "Name");
         }
 
@@ -80,10 +80,10 @@ namespace Recipes.Persistance.Migrations
                 name: "Hashtag");
 
             migrationBuilder.DropTable(
-                name: "Ingredient");
+                name: "Ingredients");
 
             migrationBuilder.DropTable(
-                name: "Recipe");
+                name: "Recipes");
         }
     }
 }

@@ -11,8 +11,8 @@ using Recipes.Persistance;
 namespace Recipes.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221022191037_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221023080728_Recipes")]
+    partial class Recipes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,7 +41,7 @@ namespace Recipes.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipe");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
@@ -97,7 +97,7 @@ namespace Recipes.Persistance.Migrations
 
                             b1.HasIndex("Name");
 
-                            b1.ToTable("Ingredient");
+                            b1.ToTable("Ingredients", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("RecipeId");

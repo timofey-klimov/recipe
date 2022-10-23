@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Recipes.Application.DependencyInjection
 {
@@ -7,6 +9,7 @@ namespace Recipes.Application.DependencyInjection
     {
         public static IServiceCollection UseApplication(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;
         }
     } 

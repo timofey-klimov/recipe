@@ -39,7 +39,7 @@ namespace Recipes.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipe");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
@@ -95,7 +95,7 @@ namespace Recipes.Persistance.Migrations
 
                             b1.HasIndex("Name");
 
-                            b1.ToTable("Ingredient");
+                            b1.ToTable("Ingredients", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("RecipeId");

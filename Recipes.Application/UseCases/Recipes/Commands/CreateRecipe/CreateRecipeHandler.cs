@@ -22,7 +22,6 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
         public async Task<RecipeDto> Handle(CreateRecipeCommand request, CancellationToken cancellationToken)
         {
             _ = request ?? throw new ArgumentNullException(nameof(request));
-            _ = request.Recipe ?? throw new ArgumentNullException(nameof(request.Recipe));
 
             var hashtags = request.Recipe.HashTags?.Select(x => new Hashtag(x.Title)).ToList();
 

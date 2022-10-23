@@ -20,6 +20,7 @@ namespace Recipes.Persistance.Configurations
                     .HasColumnName("Title");
                 
                 u.HasIndex(x => x.Title);
+                builder.ToTable("Hashtags");
             });
 
             builder.OwnsMany(x => x.Ingredients, u =>
@@ -32,6 +33,7 @@ namespace Recipes.Persistance.Configurations
                     .HasColumnName("Quantity");
 
                 u.HasIndex(x => x.Name);
+                u.ToTable("Ingredients");
             });
 
             builder.Navigation(x => x.Hashtags)
@@ -44,6 +46,7 @@ namespace Recipes.Persistance.Configurations
 
 
             builder.Ignore(x => x.Events);
+            builder.ToTable("Recipes");
         }
     }
 }
