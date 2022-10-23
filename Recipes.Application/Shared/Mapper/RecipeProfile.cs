@@ -3,7 +3,7 @@ using Recipes.Contracts;
 using Recipes.Domain.Entities;
 using Recipes.Domain.ValueObjects;
 
-namespace Recipes.Application.Mapper
+namespace Recipes.Application.Shared.Mapper
 {
     public class RecipeProfile : Profile
     {

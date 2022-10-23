@@ -3,6 +3,7 @@ using Recipes.Application.DependencyInjection;
 using Recipes.Persistance;
 using Recipes.Persistance.DependencyInjection;
 using Recipes.Web.DependencyInjection;
+using Recipes.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -15,7 +16,7 @@ var app = builder.Build();
 {
     await Migrate(app.Services);
 
-    app.MapControllers();
+    app.UseMiddleware<ExceptionHandler>();
 
     if (app.Environment.IsDevelopment())
     {
@@ -26,6 +27,7 @@ var app = builder.Build();
         });
     }
 
+    app.MapControllers();
     app.Run();
 }
 
