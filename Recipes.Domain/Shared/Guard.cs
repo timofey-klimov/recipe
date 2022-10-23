@@ -6,6 +6,6 @@ namespace Recipes.Domain.Shared
     {
         public static void ThrowBuisnessError(Error error) => throw new BuisnessErrorDomainException(error);
 
-        public static void NotFound<T>(T entity, int id) => throw new NotFoundDomainException<T>(entity, id);
+        public static void NotFound(string entityName, int id) => throw new NotFoundDomainException(entityName, id);
     }
 }

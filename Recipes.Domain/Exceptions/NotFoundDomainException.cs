@@ -2,10 +2,10 @@
 
 namespace Recipes.Domain.Exceptions
 {
-    public class NotFoundDomainException<T> : DomainException
+    public class NotFoundDomainException : DomainException
     {
-        public NotFoundDomainException(T entity, int id)
-            : base($"{entity!.GetType().Name} with {id} not found")
+        public NotFoundDomainException(string entityName, int id)
+            : base($"{entityName} with id {id} not found")
         {
 
         }

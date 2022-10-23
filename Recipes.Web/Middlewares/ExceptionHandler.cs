@@ -1,9 +1,6 @@
 ﻿using Recipes.Application.Shared.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Recipes.Domain.Exceptions;
+using Recipes.Domain.Exceptions.Core;
 
 namespace Recipes.Web.Middlewares
 {
@@ -26,9 +23,41 @@ namespace Recipes.Web.Middlewares
             {
                 await HandleValidationException(validationException, context);
             }
+            catch (DomainException domainException)
+            {
+                await HandleDomainException(domainException, context);
+            }
+            catch (Exception ex)
+            {
+                await HandleInternalError(ex, context);
+            }
         }
 
         #region handlers
+        private async Task HandleInternalError(Exception ex, HttpContext context)
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            var response = new
+            {
+                Title = "Internal Server Error"
+            };
+            await context.Response.WriteAsJsonAsync(response);
+        }
+        private async Task HandleDomainException(DomainException domainException, HttpContext context)
+        {
+            switch (domainException)
+            {
+                case NotFoundDomainException notFound:
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    var response = new
+                    {
+                        Title = "Not found",
+                        Description = notFound.Message
+                    };
+                    await context.Response.WriteAsJsonAsync(response);
+                    break;
+            }
+        }
         private async Task HandleValidationException(AppValidationException validationException, HttpContext context)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;

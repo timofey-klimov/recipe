@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Recipes.Contracts;
+using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
 using Recipes.Domain.Shared;
 
@@ -22,7 +23,7 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById
             var recipe = await _recipeRepository.GetByIdWithIngredientsAndHashtags(request.Id, cancellationToken);
 
             if (recipe is null)
-                Guard.NotFound(recipe, request.Id);
+                Guard.NotFound(Recipe.EntityName, request.Id);
 
             return _mapper.Map<RecipeDto>(recipe);
         }

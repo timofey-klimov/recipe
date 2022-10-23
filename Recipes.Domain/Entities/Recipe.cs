@@ -6,6 +6,7 @@ namespace Recipes.Domain.Entities
 {
     public class Recipe : AgregateRoot
     {
+        public static string EntityName => nameof(Recipe);
         private Recipe() { }
 
         protected Recipe(string title, string cookingProcess, List<Hashtag> hashtags, List<Ingredient> ingredients)
