@@ -14,19 +14,19 @@ namespace Recipes.Persistance.Repositories
 
         public async Task<User?> GetUserByEmailOrLoginAsync(string? login, string? email, CancellationToken token = default)
         {
-            return await Entites()
+            return await Entities()
                 .Where(x => (x.Login == login || x.Email == email)).FirstOrDefaultAsync(token);
         }
 
         public async Task<bool> IsUserEmailExistsAsync(string email, CancellationToken token = default)
         {
-            return await Entites()
+            return await Entities()
                 .AnyAsync(x => x.Email == email, token);
         }
 
         public async Task<bool> IsUserLoginExistsAsync(string login, CancellationToken token = default)
         {
-            return await Entites()
+            return await Entities()
                 .AnyAsync(x => x.Login == login, token);
         }
     }

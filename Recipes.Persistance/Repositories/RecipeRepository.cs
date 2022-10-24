@@ -14,7 +14,7 @@ namespace Recipes.Persistance.Repositories
 
         public async Task<Recipe?> GetByIdWithIngredientsAndHashtags(int id, CancellationToken token = default)
         {
-            return await DbContext.Set<Recipe>()
+            return await Entities()
                  .Include(x => x.Hashtags)
                  .Include(x => x.Ingredients)
                  .FirstOrDefaultAsync(x => x.Id == id, token);
