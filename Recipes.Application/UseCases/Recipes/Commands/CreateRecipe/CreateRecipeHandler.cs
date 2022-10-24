@@ -33,7 +33,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
                 hashtags,
                 ingridients!);
 
-            if (!recipeResult.IsSuccess)
+            if (recipeResult.HasError)
                 Guard.ThrowBuisnessError(recipeResult.Error);
 
             _recipeRepository.Add(recipeResult.Entity);

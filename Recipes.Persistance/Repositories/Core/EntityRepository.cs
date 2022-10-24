@@ -1,4 +1,5 @@
-﻿using Recipes.Domain.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using Recipes.Domain.Core;
 using Recipes.Domain.Core.Repositories;
 
 namespace Recipes.Persistance.Repositories.Core
@@ -6,11 +7,15 @@ namespace Recipes.Persistance.Repositories.Core
     public abstract class EntityRepository<T> : IEntityRepository<T>
         where T : Entity
     {
+
+
         protected ApplicationDbContext DbContext;
         public EntityRepository(ApplicationDbContext applicationDbContext)
         {
             DbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
         }
+
+        public DbSet<T> Entites() => DbContext.Set<T>();
 
         public void Add(T entity)
         {

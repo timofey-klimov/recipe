@@ -2,9 +2,9 @@
 
 namespace Recipes.Application.UseCases.Users.Commands.CreateUser
 {
-    public class CreateUserValidator : AbstractValidator<CreateUserCommand>
+    public class SignUpUserValidator : AbstractValidator<SignUpUserCommand>
     {
-        public CreateUserValidator()
+        public SignUpUserValidator()
         {
             RuleFor(x => x.User)
                 .NotNull()

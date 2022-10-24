@@ -8,5 +8,7 @@ namespace Recipes.Domain.Repositories
         Task<bool> IsUserLoginExistsAsync(string login, CancellationToken token = default);
 
         Task<bool> IsUserEmailExistsAsync(string email, CancellationToken token = default);
+
+        Task<User?> GetUserByEmailOrLoginAsync(string? login, string? email, CancellationToken token = default);
     }
 }

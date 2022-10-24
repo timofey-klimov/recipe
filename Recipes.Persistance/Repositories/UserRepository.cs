@@ -12,14 +12,22 @@ namespace Recipes.Persistance.Repositories
         {
         }
 
+        public async Task<User?> GetUserByEmailOrLoginAsync(string? login, string? email, CancellationToken token = default)
+        {
+            return await Entites()
+                .Where(x => (x.Login == login || x.Email == email)).FirstOrDefaultAsync(token);
+        }
+
         public async Task<bool> IsUserEmailExistsAsync(string email, CancellationToken token = default)
         {
-            return await DbContext.Set<User>().AnyAsync(x => x.Email == email, token);
+            return await Entites()
+                .AnyAsync(x => x.Email == email, token);
         }
 
         public async Task<bool> IsUserLoginExistsAsync(string login, CancellationToken token = default)
         {
-            return await DbContext.Set<User>().AnyAsync(x => x.Login == login, token);
+            return await Entites()
+                .AnyAsync(x => x.Login == login, token);
         }
     }
 }

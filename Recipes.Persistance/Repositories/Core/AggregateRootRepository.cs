@@ -7,6 +7,7 @@ namespace Recipes.Persistance.Repositories.Core
     public abstract class AggregateRootRepository<T> : EntityRepository<T>, IAggregateRootRepository<T>
         where T : AggregateRoot
     {
+
         protected AggregateRootRepository(ApplicationDbContext applicationDbContext) 
             : base(applicationDbContext)
         {

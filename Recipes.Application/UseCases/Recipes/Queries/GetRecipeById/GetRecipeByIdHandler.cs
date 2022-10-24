@@ -23,7 +23,7 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById
             var recipe = await _recipeRepository.GetByIdWithIngredientsAndHashtags(request.Id, cancellationToken);
 
             if (recipe is null)
-                Guard.NotFound(Recipe.EntityName, request.Id);
+                Guard.NotFound(Recipe.EntityName);
 
             return _mapper.Map<RecipeDto>(recipe);
         }

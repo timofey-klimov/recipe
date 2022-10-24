@@ -2,22 +2,42 @@
 
 namespace Recipes.Domain.Shared
 {
+    public class Result
+    {
+        public Error Error { get; }
+        private bool _isSuccess { get; }
+
+        public bool HasError => !_isSuccess;
+        public Result(Error error, bool isSuccess)
+        {
+            Error = error;
+            _isSuccess = isSuccess;
+        }
+
+        public static Result FromError(Error error) => new Result(error, false);
+
+        public static Result Success() => new Result(default, true);
+
+        public static implicit operator Result(Error error) => FromError(error);
+    }
+
     public class Result<T>
         where T : Entity
     {
         private T _entity;
+        private bool _isSuccess;
         private Result(T entity, Error error, bool isSuccess)
         {
             _entity = entity;
             Error = error;
-            IsSuccess = isSuccess;
+            _isSuccess = isSuccess;
         }
 
         public T Entity
         {
             get
             {
-                if (!IsSuccess)
+                if (HasError)
                     throw new InvalidOperationException();
 
                 return _entity;
@@ -28,9 +48,10 @@ namespace Recipes.Domain.Shared
             }
         }
 
+        public bool HasError => !_isSuccess;
+
         public Error Error { get; }
 
-        public bool IsSuccess { get; }
 
         public static Result<T> FromValue(T entity) => new Result<T>(entity, default, true);
         public static Result<T> FromError(Error error) => new Result<T>(default, error, false);

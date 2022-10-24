@@ -9,6 +9,7 @@ namespace Recipes.Domain.Entities
     public class User : AggregateRoot
     {
         private string _salt;
+        public static string EntityName => nameof(User);
 
         private User() { }
 
@@ -45,5 +46,15 @@ namespace Recipes.Domain.Entities
 
             return new User(login, email, hashedPassword, salt);
         }
+
+        public Result CheckUserPassword(string passwordForCheck, IPasswordHasher passwordHasher)
+        {
+            var hashedPassword = passwordHasher.Hash(passwordForCheck, _salt);
+
+            if (hashedPassword != Password)
+                return UserErrors.LoginOrPasswordIsInvalid();
+
+            return Result.Success();
+        } 
     }
 }

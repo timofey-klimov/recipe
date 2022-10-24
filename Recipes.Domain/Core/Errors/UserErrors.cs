@@ -9,5 +9,8 @@ namespace Recipes.Domain.Core.Errors
 
         public static Error LoginAlreadyExists() =>
             new Error("User.LoginAlreadyExists", "User with such login already exists");
+
+        public static Error LoginOrPasswordIsInvalid() =>
+            new Error("User.LoginOrPasswordIsInvalid", "Login,email or password are invalid");
     }
 }

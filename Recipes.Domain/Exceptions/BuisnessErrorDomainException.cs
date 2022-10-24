@@ -12,5 +12,8 @@ namespace Recipes.Domain.Exceptions
             _error = error;
         }
 
+        public string GetDescription() => _error.Description;
+        public string GetCode() => _error.Code;
+
     }
 }

@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Recipes.Contracts;
+using Recipes.Contracts.Auth;
 
 namespace Recipes.Application.UseCases.Users.Commands.CreateUser
 {
-    public record CreateUserCommand(UserDto User) : IRequest<UserDto>;
+    public record SignUpUserCommand(SignUpUserDto User) : IRequest<UserDto>;
     
 }

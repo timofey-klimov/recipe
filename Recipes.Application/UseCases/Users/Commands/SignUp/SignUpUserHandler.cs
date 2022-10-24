@@ -8,13 +8,13 @@ using Recipes.Domain.Shared;
 
 namespace Recipes.Application.UseCases.Users.Commands.CreateUser
 {
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
+    public class SignUpUserHandler : IRequestHandler<SignUpUserCommand, UserDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ISaltGenerator _saltGenerator;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateUserHandler(
+        public SignUpUserHandler(
             IUserRepository userRepository, 
             IPasswordHasher passwordHasher, 
             ISaltGenerator saltGenerator, 
@@ -27,21 +27,23 @@ namespace Recipes.Application.UseCases.Users.Commands.CreateUser
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
         {
             _ = request ?? throw new ArgumentNullException(nameof(request));
-            var (_, email, login, password) = request.User;
+            var (login, email, password) = request.User;
 
             var createUserResult = await User.CreateAsync(login, email, password, _userRepository, _passwordHasher, _saltGenerator);
 
-            if (!createUserResult.IsSuccess)
+            if (createUserResult.HasError)
                 Guard.ThrowBuisnessError(createUserResult.Error);
 
-            _userRepository.Add(createUserResult.Entity);
+            var user = createUserResult.Entity;
+
+            _userRepository.Add(user);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return request.User with { Id = createUserResult.Entity.Id };
+            return new UserDto(user.Id, user.Email, user.Login);
         }
     }
 }

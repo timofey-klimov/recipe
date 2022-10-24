@@ -49,12 +49,22 @@ namespace Recipes.Web.Middlewares
             {
                 case NotFoundDomainException notFound:
                     context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    var response = new
+                    var notFoundresponse = new
                     {
                         Title = "Not found",
                         Description = notFound.Message
                     };
-                    await context.Response.WriteAsJsonAsync(response);
+                    await context.Response.WriteAsJsonAsync(notFoundresponse);
+                    break;
+                case BuisnessErrorDomainException buisnessError:
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    var buisnessErrorresponse = new
+                    {
+                        Title = "Buisness Error",
+                        Description = buisnessError.GetDescription(),
+                        Code = buisnessError.GetCode()
+                    };
+                    await context.Response.WriteAsJsonAsync(buisnessErrorresponse);
                     break;
             }
         }
