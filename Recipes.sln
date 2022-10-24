@@ -5,15 +5,17 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Domain", "Recipes.Domain\Recipes.Domain.csproj", "{8CE65668-6340-4D78-A17F-61FE1FA31824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Domain", "Recipes.Domain\Recipes.Domain.csproj", "{8CE65668-6340-4D78-A17F-61FE1FA31824}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Application", "Recipes.Application\Recipes.Application.csproj", "{A08D1A8F-359C-4C42-AE37-B05C3B60E3B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Application", "Recipes.Application\Recipes.Application.csproj", "{A08D1A8F-359C-4C42-AE37-B05C3B60E3B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Web", "Recipes.Web\Recipes.Web.csproj", "{690B46EC-B799-45F3-9B7B-0AB537F68591}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Web", "Recipes.Web\Recipes.Web.csproj", "{690B46EC-B799-45F3-9B7B-0AB537F68591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Persistance", "Recipes.Persistance\Recipes.Persistance.csproj", "{E788D33B-6D50-483B-AC62-2CE976B306C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Persistance", "Recipes.Persistance\Recipes.Persistance.csproj", "{E788D33B-6D50-483B-AC62-2CE976B306C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Contracts", "Recipes.Contracts\Recipes.Contracts.csproj", "{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Contracts", "Recipes.Contracts\Recipes.Contracts.csproj", "{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Infrustructure", "Recipes.Infrustructure\Recipes.Infrustructure.csproj", "{0F916D8F-DCD1-4973-BE58-481B838BF05F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F916D8F-DCD1-4973-BE58-481B838BF05F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F916D8F-DCD1-4973-BE58-481B838BF05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F916D8F-DCD1-4973-BE58-481B838BF05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F916D8F-DCD1-4973-BE58-481B838BF05F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{690B46EC-B799-45F3-9B7B-0AB537F68591} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
 		{E788D33B-6D50-483B-AC62-2CE976B306C1} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
 		{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
+		{0F916D8F-DCD1-4973-BE58-481B838BF05F} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44B00FB1-0487-4376-8F6D-DE57FDB66D55}

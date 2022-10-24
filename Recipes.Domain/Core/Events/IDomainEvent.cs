@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Recipes.Domain.Core
+namespace Recipes.Domain.Core.Events
 {
     public interface IDomainEvent : INotification
     {

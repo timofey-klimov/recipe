@@ -3,28 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Contracts;
+using Recipes.Contracts.Web;
 
 namespace Recipes.Web.Controllers
 {
     [Route("api/recipes")]
-    public class RecipeController : ControllerBase
+    public class RecipeController : ApplicationController
     {
-        private readonly IMediator _mediator;
         public RecipeController(IMediator mediator)
+            :base (mediator)
         {
-            _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateRecipe([FromBody]RecipeDto recipeDto, CancellationToken token)
+        [HttpPost("create")]
+        public async Task<Response<RecipeDto>> CreateRecipe([FromBody]RecipeDto recipeDto, CancellationToken token)
         {
-            return Ok(await _mediator.Send(new CreateRecipeCommand(recipeDto), token));
+            return Created(await Mediator.Send(new CreateRecipeCommand(recipeDto), token));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetRecipeById(int id, CancellationToken token)
+        [HttpGet("getById")]
+        public async Task<Response<RecipeDto>> GetRecipeById(int id, CancellationToken token)
         {
-            return Ok(await _mediator.Send(new GetRecipeByIdQuery(id), token));
+            return Ok(await Mediator.Send(new GetRecipeByIdQuery(id), token));
         }
     }
 }

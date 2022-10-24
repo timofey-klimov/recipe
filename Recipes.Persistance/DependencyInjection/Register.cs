@@ -17,6 +17,7 @@ namespace Recipes.Persistance.DependencyInjection
                 x.UseSqlServer(configuration.GetConnectionString("Default"));
             });
             services.AddScoped<IRecipeRepository, RecipeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

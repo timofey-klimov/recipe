@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Recipes.Infrustructure\Recipes.Infrustructure.csproj" />
     <ProjectReference Include="..\Recipes.Persistance\Recipes.Persistance.csproj" />
   </ItemGroup>
 

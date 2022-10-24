@@ -26,6 +26,7 @@ namespace Recipes.Persistance.Configurations
                 .IsRequired();
 
             builder.Property(x => x.CreateDate)
+                .HasColumnType("datetime2(0)")
                 .HasDefaultValueSql("getdate()");
         }
     }

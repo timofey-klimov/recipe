@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Recipes.Application.DependencyInjection;
+using Recipes.Infrustructure;
 using Recipes.Persistance;
 using Recipes.Persistance.DependencyInjection;
 using Recipes.Web.DependencyInjection;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services
         .UseApplication(builder.Configuration)
         .UsePersistance(builder.Configuration)
+        .UseInfrustructure(builder.Configuration)
         .UseWebApp(builder.Configuration);
 }
 var app = builder.Build();

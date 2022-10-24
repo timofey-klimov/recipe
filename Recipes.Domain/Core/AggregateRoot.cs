@@ -1,4 +1,6 @@
-﻿namespace Recipes.Domain.Core
+﻿using Recipes.Domain.Core.Events;
+
+namespace Recipes.Domain.Core
 {
     public abstract class AggregateRoot : Entity
     {
