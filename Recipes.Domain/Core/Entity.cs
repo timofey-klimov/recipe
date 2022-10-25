@@ -19,8 +19,17 @@
             return Id.GetHashCode();
         }
 
-        public static bool operator ==(Entity first, Entity second)
+        public static bool operator ==(Entity? first, Entity? second)
         {
+            if (first is null && second is null)
+                return true;
+
+            if (first is null && second is not null)
+                return false;
+
+            if (first is not null && second is null)
+                return false;
+
             return first.Equals(second);
         }
 

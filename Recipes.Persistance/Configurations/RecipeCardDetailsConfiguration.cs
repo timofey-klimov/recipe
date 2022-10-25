@@ -4,14 +4,11 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Persistance.Configurations
 {
-    public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
+    public class RecipeCardDetailsConfiguration : IEntityTypeConfiguration<RecipeCardDetails>
     {
-        public void Configure(EntityTypeBuilder<Recipe> builder)
+        public void Configure(EntityTypeBuilder<RecipeCardDetails> builder)
         {
             builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.Title)
-                .IsRequired();
 
             builder.OwnsMany(x => x.Hashtags, u =>
             {
@@ -44,9 +41,7 @@ namespace Recipes.Persistance.Configurations
                 .HasField("_ingredients")
                 .UsePropertyAccessMode(PropertyAccessMode.Field);
 
-
-            builder.Ignore(x => x.Events);
-            builder.ToTable("Recipes");
+            builder.ToTable("RecipeCardDetails");
         }
     }
 }

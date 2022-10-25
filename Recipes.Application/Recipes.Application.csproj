@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
+    <Folder Include="Shared\Mapper\" />
+    <Folder Include="UseCases\RecipeCards\Queries\" />
   </ItemGroup>
 
 </Project>

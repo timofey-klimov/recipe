@@ -12,8 +12,8 @@ using Recipes.Persistance;
 namespace Recipes.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221023190315_User")]
-    partial class User
+    [Migration("20221025190028_Recipes")]
+    partial class Recipes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,29 @@ namespace Recipes.Persistance.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
+            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipeCards", (string)null);
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCardDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,13 +58,15 @@ namespace Recipes.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RecipeCardId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.HasIndex("RecipeCardId")
+                        .IsUnique();
+
+                    b.ToTable("RecipeCardDetails", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
@@ -55,7 +79,7 @@ namespace Recipes.Persistance.Migrations
 
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Email")
@@ -80,11 +104,55 @@ namespace Recipes.Persistance.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
+            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
                 {
+                    b.OwnsOne("Recipes.Domain.ValueObjects.RecipeMainImage", "Image", b1 =>
+                        {
+                            b1.Property<int>("RecipeCardId")
+                                .HasColumnType("int")
+                                .HasColumnName("RecipeCardId");
+
+                            b1.Property<byte[]>("Content")
+                                .IsRequired()
+                                .HasColumnType("varbinary(max)")
+                                .HasColumnName("Content");
+
+                            b1.Property<string>("ContentType")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("ContentType");
+
+                            b1.Property<string>("FileName")
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("FileName");
+
+                            b1.Property<long>("Size")
+                                .HasColumnType("bigint")
+                                .HasColumnName("Size");
+
+                            b1.HasKey("RecipeCardId");
+
+                            b1.ToTable("RecipeMainImages", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeCardId");
+                        });
+
+                    b.Navigation("Image")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCardDetails", b =>
+                {
+                    b.HasOne("Recipes.Domain.Entities.RecipeCard", null)
+                        .WithOne("Details")
+                        .HasForeignKey("Recipes.Domain.Entities.RecipeCardDetails", "RecipeCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsMany("Recipes.Domain.ValueObjects.Hashtag", "Hashtags", b1 =>
                         {
-                            b1.Property<int>("RecipeId")
+                            b1.Property<int>("RecipeCardDetailsId")
                                 .HasColumnType("int");
 
                             b1.Property<int>("Id")
@@ -98,19 +166,19 @@ namespace Recipes.Persistance.Migrations
                                 .HasColumnType("nvarchar(450)")
                                 .HasColumnName("Title");
 
-                            b1.HasKey("RecipeId", "Id");
+                            b1.HasKey("RecipeCardDetailsId", "Id");
 
                             b1.HasIndex("Title");
 
                             b1.ToTable("Hashtag");
 
                             b1.WithOwner()
-                                .HasForeignKey("RecipeId");
+                                .HasForeignKey("RecipeCardDetailsId");
                         });
 
                     b.OwnsMany("Recipes.Domain.ValueObjects.Ingredient", "Ingredients", b1 =>
                         {
-                            b1.Property<int>("RecipeId")
+                            b1.Property<int>("RecipeCardDetailsId")
                                 .HasColumnType("int");
 
                             b1.Property<int>("Id")
@@ -129,19 +197,25 @@ namespace Recipes.Persistance.Migrations
                                 .HasColumnType("nvarchar(max)")
                                 .HasColumnName("Quantity");
 
-                            b1.HasKey("RecipeId", "Id");
+                            b1.HasKey("RecipeCardDetailsId", "Id");
 
                             b1.HasIndex("Name");
 
                             b1.ToTable("Ingredients", (string)null);
 
                             b1.WithOwner()
-                                .HasForeignKey("RecipeId");
+                                .HasForeignKey("RecipeCardDetailsId");
                         });
 
                     b.Navigation("Hashtags");
 
                     b.Navigation("Ingredients");
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
+                {
+                    b.Navigation("Details")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

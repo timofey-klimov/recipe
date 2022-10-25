@@ -19,7 +19,12 @@ var app = builder.Build();
     await Migrate(app.Services);
 
     app.UseMiddleware<ExceptionHandler>();
-
+    app.UseCors(opts =>
+    {
+        opts.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger(opts => opts.SerializeAsV2 = true);
