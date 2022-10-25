@@ -28,6 +28,7 @@ namespace Recipes.Web.Middlewares
                 await HandleDomainException(domainException, context);
             }
             catch (Exception ex)
+            
             {
                 await HandleInternalError(ex, context);
             }

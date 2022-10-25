@@ -14,7 +14,17 @@ namespace Recipes.Web.Controllers
         {
         }
 
+        /// <summary>
+        /// Создание основной информации рецепта
+        /// </summary>
+        /// <param name="cardInfo"></param>
+        /// <param name="recipeId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpPost("create/{recipeId}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<Response<RecipeCardDetailsDto>> Create(
             [FromBody] RecipeCardDetailsDto cardInfo, int recipeId, CancellationToken token)
         {

@@ -15,7 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Persistance", "Reci
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Contracts", "Recipes.Contracts\Recipes.Contracts.csproj", "{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Infrustructure", "Recipes.Infrustructure\Recipes.Infrustructure.csproj", "{0F916D8F-DCD1-4973-BE58-481B838BF05F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Infrustructure", "Recipes.Infrustructure\Recipes.Infrustructure.csproj", "{0F916D8F-DCD1-4973-BE58-481B838BF05F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9F7155A-027A-42DB-8784-DA5CE2AA0E9B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

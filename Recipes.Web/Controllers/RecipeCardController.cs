@@ -13,6 +13,12 @@ namespace Recipes.Web.Controllers
         {
         }
 
+        /// <summary>
+        /// Создание карточки рецепта
+        /// </summary>
+        /// <param name="recipeCardDto"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpPost("create")]
         public async Task<Response<RecipeCardDto>> CreateRecipeCard([FromForm] CreateRecipeCardDto recipeCardDto, CancellationToken token)
         {
