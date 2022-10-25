@@ -5,6 +5,6 @@ namespace Recipes.Domain.Core.Errors
     public static class RecipeCardDetailErrors
     {
         public static Error CantCreateRecipeCardWithExistringRecipeInfo() =>
-            new Error("RecipeCardInfo.RecipeCardInfoExists", "Recipe info already exists");
+            new Error("RecipeCardDetails.RecipeCardDetailsExists", "Recipe details already exists");
     }
 }

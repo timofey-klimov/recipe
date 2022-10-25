@@ -12,7 +12,7 @@ using Recipes.Persistance;
 namespace Recipes.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221025190028_Recipes")]
+    [Migration("20221025194209_Recipes")]
     partial class Recipes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

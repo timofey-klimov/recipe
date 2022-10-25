@@ -168,7 +168,7 @@ namespace Recipes.Persistance.Migrations
 
                             b1.HasIndex("Title");
 
-                            b1.ToTable("Hashtags");
+                            b1.ToTable("Hashtag");
 
                             b1.WithOwner()
                                 .HasForeignKey("RecipeCardDetailsId");

@@ -15,7 +15,7 @@ namespace Recipes.Persistance.Configurations
                 u.Property(x => x.Title)
                     .IsRequired()
                     .HasColumnName("Title");
-                
+
                 u.HasIndex(x => x.Title);
                 builder.ToTable("Hashtags");
             });

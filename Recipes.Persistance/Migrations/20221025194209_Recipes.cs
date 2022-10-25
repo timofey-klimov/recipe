@@ -82,7 +82,7 @@ namespace Recipes.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Hashtags",
+                name: "Hashtag",
                 columns: table => new
                 {
                     RecipeCardDetailsId = table.Column<int>(type: "int", nullable: false),
@@ -124,7 +124,7 @@ namespace Recipes.Persistance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hashtag_Title",
-                table: "Hashtags",
+                table: "Hashtag",
                 column: "Title");
 
             migrationBuilder.CreateIndex(
