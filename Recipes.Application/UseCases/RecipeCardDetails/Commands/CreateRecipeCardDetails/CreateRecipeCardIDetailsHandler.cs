@@ -35,9 +35,10 @@ namespace Recipes.Application.UseCases.RecipeCardInfo.Commands.CreateRecipeCardD
             var ingredients = request.RecipeInfo!.Ingredients.Select(x => new Ingredient(x.Name, x.Quantity)).ToList();
 
             var recipeInfoResult = recipeCard!.CreateRecipeDetails(
-                request.RecipeInfo.CookingProcess,
+                request.RecipeInfo.Remark,
                 hashtags,
-                ingredients);
+                ingredients,
+                request.RecipeInfo.MealType);
 
             if (recipeInfoResult.HasError)
                 Guard.ThrowBuisnessError(recipeInfoResult.Error);

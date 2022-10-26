@@ -20,6 +20,7 @@ namespace Recipes.Persistance.DependencyInjection
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IRecipeCardRepository, RecipeCardRepository>();
+            services.AddScoped<ICookingStageRepository, CookingStageRepository>();
 
             return services;
         }
