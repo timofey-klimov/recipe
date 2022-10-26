@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
+using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards;
 using Recipes.Contracts.Recipes;
 using Recipes.Contracts.Web;
 
@@ -25,5 +26,14 @@ namespace Recipes.Web.Controllers
             return Created(await Mediator.Send(
                 new CreateRecipeCardCommand(recipeCardDto.Title, recipeCardDto.Image), cancellationToken: token)); 
         }
+
+        /// <summary>
+        /// Получение пагинации карточек рецепта
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("all")]
+        public async Task<PaginationResponse<RecipeCardDto>> GetRecipeCards(CancellationToken token) => 
+            Pagination(await Mediator.Send(new GetRecipeCardsQuery(), token));
     }
 }

@@ -17,5 +17,13 @@ namespace Recipes.Persistance.Repositories.Core
         {
             return await DbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, token);
         }
+
+        public IQueryable<T> GetAll() => Entities();
+
+        public IQueryable<T> GetAllWithIncludes(params string[] includes)
+        {
+            IQueryable<T> query = Entities();
+            return includes.Aggregate(query, (current, s) => current.Include(s));
+        }
     }
 }

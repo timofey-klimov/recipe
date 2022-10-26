@@ -26,5 +26,12 @@ namespace Recipes.Web.Controllers
             HttpContext.Response.ContentType = "application/json";
             return Response<T>.Create(data);
         }
+
+        protected T Pagination<T>(T data)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status200OK;
+            HttpContext.Response.ContentType = "application/json";
+            return data;
+        }
     }
 }
