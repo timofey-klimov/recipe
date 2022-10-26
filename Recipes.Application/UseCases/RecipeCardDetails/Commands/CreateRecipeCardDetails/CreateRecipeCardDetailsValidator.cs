@@ -7,7 +7,7 @@ namespace Recipes.Application.UseCases.RecipeCardDetails.Commands.CreateRecipeCa
     {
         public CreateRecipeCardDetailsValidator()
         {
-            RuleFor(x => x.RecipeInfo.CookingProcess)
+            RuleFor(x => x.RecipeInfo.Remark)
                 .NotEmpty()
                 .WithErrorCode("cookingProcess")
                 .WithMessage("cookingProccess should not be null");

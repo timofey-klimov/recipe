@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Recipes.Domain.Entities;
+using Recipes.Domain.Enums;
+using Recipes.Shared;
 
 namespace Recipes.Persistance.Configurations
 {
@@ -40,6 +42,20 @@ namespace Recipes.Persistance.Configurations
             builder.Navigation(x => x.Ingredients)
                 .HasField("_ingredients")
                 .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.HasMany(x => x.Stages)
+                .WithOne()
+                .HasForeignKey(x => x.RecipeDetailsId);
+
+            builder.Navigation(x => x.Stages)
+                .HasField("_stages")
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Property(x => x.Remark)
+                .IsRequired();
+
+            builder.Property(x => x.MealType)
+                .HasConversion(u => u.ToString(), a => a.ToEnum<MealType>());
 
             builder.ToTable("RecipeCardDetails");
         }

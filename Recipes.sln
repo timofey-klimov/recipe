@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Shared", "Recipes.Shared\Recipes.Shared.csproj", "{BB837B56-C8D4-4374-B542-81EC9A7F4F4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{0F916D8F-DCD1-4973-BE58-481B838BF05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F916D8F-DCD1-4973-BE58-481B838BF05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F916D8F-DCD1-4973-BE58-481B838BF05F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB837B56-C8D4-4374-B542-81EC9A7F4F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB837B56-C8D4-4374-B542-81EC9A7F4F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB837B56-C8D4-4374-B542-81EC9A7F4F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB837B56-C8D4-4374-B542-81EC9A7F4F4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{E788D33B-6D50-483B-AC62-2CE976B306C1} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
 		{F9FE1911-E6BF-4A30-BF94-2AE9F9DE6415} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
 		{0F916D8F-DCD1-4973-BE58-481B838BF05F} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
+		{BB837B56-C8D4-4374-B542-81EC9A7F4F4F} = {0177AD0C-65B2-45A6-AAA3-8BF457DCD3B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44B00FB1-0487-4376-8F6D-DE57FDB66D55}

@@ -2,7 +2,8 @@
 {
     public record RecipeCardDetailsDto(
         int? Id,
-        string CookingProcess,
+        string Remark,
+        byte MealType,
         IEnumerable<string> HashTags, 
         IEnumerable<IngredientDto> Ingredients);
     

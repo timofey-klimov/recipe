@@ -1,5 +1,6 @@
 ﻿using Recipes.Domain.Core;
 using Recipes.Domain.Core.Errors;
+using Recipes.Domain.Enums;
 using Recipes.Domain.Shared;
 using Recipes.Domain.ValueObjects;
 
@@ -30,12 +31,14 @@ namespace Recipes.Domain.Entities
             return new RecipeCard(title, image);
         }
 
-        public Result<RecipeCardDetails> CreateRecipeDetails(string cookingProccess, List<Hashtag> hashTags, List<Ingredient> ingredients)
+        public Result<RecipeCardDetails> CreateRecipeDetails(string remark, List<Hashtag> hashTags, List<Ingredient> ingredients, byte mealType)
         {
             if (this.Details != null)
                 return RecipeCardDetailErrors.CantCreateRecipeCardWithExistringRecipeInfo();
 
-            var details = new RecipeCardDetails(this, cookingProccess, hashTags, ingredients);
+            var @enum = (MealType)mealType;
+
+            var details = new RecipeCardDetails(this, remark, @enum, hashTags, ingredients);
             Details = details;
 
             return details;
