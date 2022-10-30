@@ -12,43 +12,37 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
     public class CreateRecipeCardHandler : IRequestHandler<CreateRecipeCardCommand, RecipeCardDto>
     {
         private readonly IRecipeCardRepository _repository;
-        private readonly IFileProvider _fileProvider;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateRecipeCardHandler(
             IRecipeCardRepository repository, 
-            IFileProvider fileProvider, 
             IUnitOfWork unitOfWork)
         {
             _repository = repository;
-            _fileProvider = fileProvider;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<RecipeCardDto> Handle(CreateRecipeCardCommand request, CancellationToken cancellationToken)
         {
-            var uploadFile = await _fileProvider.CreateUploadFileAsync(
-                request.Image.ContentType,
-                request.Image.FileName,
-                request.Image.Length,
-                request.Image.OpenReadStream(),
-                cancellationToken);
+            var recipeResult = RecipeCard
+                .Create(request.Title, request.Remark, request.MealType, request.Hashtags?.ToList());
 
-            var recipeCardMainImage = new RecipeMainImage(
-                uploadFile.Content, uploadFile.ContentType, uploadFile.Size, uploadFile.FileName);
+            if (recipeResult.HasError)
+                Guard.ThrowBuisnessError(recipeResult.Error);
 
-            var recipeCardResult = RecipeCard.Create(request.Title, recipeCardMainImage);
+            var entity = recipeResult.Entity;
 
-            if (recipeCardResult.HasError)
-                Guard.ThrowBuisnessError(recipeCardResult.Error);
-
-            var recipeCard = recipeCardResult.Entity;
-
-            _repository.Add(recipeCard);
+            _repository.Add(entity);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new RecipeCardDto(recipeCard.Id, recipeCard.Title, recipeCard.Image.Content);
+            return new RecipeCardDto(
+                entity.Id, 
+                entity.Title, 
+                entity.Remark, 
+                (byte)entity.MealType, 
+                entity.CreateDate.ToShortDateString(),
+                entity.Hashtags?.Select(x => x.Title).ToList());
         }
     }
 }

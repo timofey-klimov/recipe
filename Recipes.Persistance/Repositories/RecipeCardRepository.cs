@@ -22,8 +22,17 @@ namespace Recipes.Persistance.Repositories
         public async Task<RecipeCard?> GetByIdWithDetailsAsync(int id, CancellationToken token = default)
         {
             return await Entities()
-                    .Include(x => x.Details)
+                    .Include(x => x.Ingredients)
+                    .Include(x => x.Hashtags)
+                    .Include(x => x.Stages)
                     .FirstOrDefaultAsync(x => x.Id == id, token);
+        }
+
+        public async Task<RecipeCard?> GetByIdWithIngredientsAsync(int id, CancellationToken token = default)
+        {
+            return await Entities()
+                .Include(x => x.Ingredients)
+                .FirstOrDefaultAsync(x => x.Id == id, token);
         }
     }
 }

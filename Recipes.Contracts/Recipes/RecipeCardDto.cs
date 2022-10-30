@@ -1,9 +1,12 @@
 ﻿namespace Recipes.Contracts.Recipes
 {
     public record RecipeCardDto(
-        int Id,
+        int? Id,
         string Title,
-        byte[] image
+        string Remark,
+        byte MealType,
+        string CreatedAt,
+        IReadOnlyCollection<string>? hashtags
         );
     
 }

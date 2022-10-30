@@ -34,14 +34,40 @@ namespace Recipes.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RecipeDetailsId")
+                    b.Property<int>("RecipeCardId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipeDetailsId");
+                    b.HasIndex("RecipeCardId");
 
                     b.ToTable("CookingStages", (string)null);
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeCardId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeCardId");
+
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
@@ -57,6 +83,13 @@ namespace Recipes.Persistance.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("getdate()");
 
+                    b.Property<byte>("MealType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Remark")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -64,33 +97,6 @@ namespace Recipes.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RecipeCards", (string)null);
-                });
-
-            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCardDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("MealType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RecipeCardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Remark")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeCardId")
-                        .IsUnique();
-
-                    b.ToTable("RecipeCardDetails", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
@@ -130,9 +136,9 @@ namespace Recipes.Persistance.Migrations
 
             modelBuilder.Entity("Recipes.Domain.Entities.CookingStage", b =>
                 {
-                    b.HasOne("Recipes.Domain.Entities.RecipeCardDetails", null)
+                    b.HasOne("Recipes.Domain.Entities.RecipeCard", null)
                         .WithMany("Stages")
-                        .HasForeignKey("RecipeDetailsId")
+                        .HasForeignKey("RecipeCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -171,8 +177,41 @@ namespace Recipes.Persistance.Migrations
                     b.Navigation("Image");
                 });
 
+            modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
+                {
+                    b.HasOne("Recipes.Domain.Entities.RecipeCard", null)
+                        .WithMany("Ingredients")
+                        .HasForeignKey("RecipeCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
                 {
+                    b.OwnsMany("Recipes.Domain.ValueObjects.Hashtag", "Hashtags", b1 =>
+                        {
+                            b1.Property<int>("RecipeCardId")
+                                .HasColumnType("int")
+                                .HasColumnName("RecipeCardId");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("RecipeCardId", "Id");
+
+                            b1.ToTable("Hashtags", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeCardId");
+                        });
+
                     b.OwnsOne("Recipes.Domain.ValueObjects.RecipeMainImage", "Image", b1 =>
                         {
                             b1.Property<int>("RecipeCardId")
@@ -205,88 +244,16 @@ namespace Recipes.Persistance.Migrations
                                 .HasForeignKey("RecipeCardId");
                         });
 
+                    b.Navigation("Hashtags");
+
                     b.Navigation("Image")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCardDetails", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.RecipeCard", null)
-                        .WithOne("Details")
-                        .HasForeignKey("Recipes.Domain.Entities.RecipeCardDetails", "RecipeCardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsMany("Recipes.Domain.ValueObjects.Hashtag", "Hashtags", b1 =>
-                        {
-                            b1.Property<int>("RecipeCardDetailsId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<string>("Title")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(450)")
-                                .HasColumnName("Title");
-
-                            b1.HasKey("RecipeCardDetailsId", "Id");
-
-                            b1.HasIndex("Title");
-
-                            b1.ToTable("Hashtag");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RecipeCardDetailsId");
-                        });
-
-                    b.OwnsMany("Recipes.Domain.ValueObjects.Ingredient", "Ingredients", b1 =>
-                        {
-                            b1.Property<int>("RecipeCardDetailsId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(450)")
-                                .HasColumnName("Name");
-
-                            b1.Property<string>("Quantity")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Quantity");
-
-                            b1.HasKey("RecipeCardDetailsId", "Id");
-
-                            b1.HasIndex("Name");
-
-                            b1.ToTable("Ingredients", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("RecipeCardDetailsId");
-                        });
-
-                    b.Navigation("Hashtags");
-
-                    b.Navigation("Ingredients");
-                });
-
             modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
                 {
-                    b.Navigation("Details")
-                        .IsRequired();
-                });
+                    b.Navigation("Ingredients");
 
-            modelBuilder.Entity("Recipes.Domain.Entities.RecipeCardDetails", b =>
-                {
                     b.Navigation("Stages");
                 });
 #pragma warning restore 612, 618

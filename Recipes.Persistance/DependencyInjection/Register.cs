@@ -16,11 +16,11 @@ namespace Recipes.Persistance.DependencyInjection
             {
                 x.UseSqlServer(configuration.GetConnectionString("Default"));
             });
-            services.AddScoped<IRecipeCardIDetailRepository, RecipeCardDetailRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IRecipeCardRepository, RecipeCardRepository>();
             services.AddScoped<ICookingStageRepository, CookingStageRepository>();
+            services.AddScoped<IIngredientRepository, IngredientRepository>();
 
             return services;
         }

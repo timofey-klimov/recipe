@@ -11,4 +11,5 @@
 
         public static Response<T> Create(T data) => new Response<T>(data);
     }
+
 }

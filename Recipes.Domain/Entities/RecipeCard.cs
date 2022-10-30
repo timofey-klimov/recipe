@@ -12,36 +12,75 @@ namespace Recipes.Domain.Entities
 
         public string Title { get; private set; }
 
+        public string Remark { get; private set; }
         public DateTime CreateDate { get; private set; }
 
+        public MealType MealType { get; private set; }
         public RecipeMainImage Image { get; private set; }
 
-        public RecipeCardDetails Details { get; private set; }
+        private List<Hashtag>? _hashtags;
+        public IReadOnlyCollection<Hashtag> Hashtags => _hashtags;
+
+        private List<Ingredient> _ingredients;
+        public IReadOnlyCollection<Ingredient> Ingredients => _ingredients;
+
+        private List<CookingStage> _stages;
+        public IReadOnlyCollection<CookingStage> Stages => _stages;
 
         private RecipeCard() { }
 
-        protected RecipeCard(string title, RecipeMainImage image)
+        protected RecipeCard(
+            string title, string remark, MealType mealType, List<Hashtag>? hashtags)
         {
             Title = title;
-            Image = image;
+            Remark = remark;
+            MealType = mealType;
+            _hashtags = new List<Hashtag>();
+            _ingredients = new List<Ingredient>();
+            _stages = new List<CookingStage>();
+            _hashtags = hashtags;
         }
-
-        public static Result<RecipeCard> Create(string title, RecipeMainImage image)
+        
+        public static Result<RecipeCard> Create(
+            string title, string remark, byte mealType, List<string>? hashtags)
         {
-            return new RecipeCard(title, image);
+            var tags = hashtags?.Select(tag => new Hashtag(tag)).ToList();
+            return new RecipeCard(title, remark, (MealType)mealType, tags);
         }
 
-        public Result<RecipeCardDetails> CreateRecipeDetails(string remark, List<Hashtag> hashTags, List<Ingredient> ingredients, byte mealType)
+        /// <summary>
+        /// Добавить ингредиент в рецепт
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="quantity"></param>
+        /// <returns></returns>
+        public Result<Ingredient> AddIngredient(string name, string quantity)
         {
-            if (this.Details != null)
-                return RecipeCardDetailErrors.CantCreateRecipeCardWithExistringRecipeInfo();
+            if (_ingredients.Any(x => x.Name == name && x.Quantity == quantity))
+                return RecipeCardErrors.IngredientAlreadyExists(name, quantity);
 
-            var @enum = (MealType)mealType;
+            var ingredient = Ingredient.Create(name, quantity);
+            if (ingredient.HasError)
+                return ingredient.Error;
+            _ingredients.Add(ingredient.Entity);
 
-            var details = new RecipeCardDetails(this, remark, @enum, hashTags, ingredients);
-            Details = details;
-
-            return details;
+            return ingredient.Entity;
         }
-    }
+
+        /// <summary>
+        /// Добавить шаг приготовления
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public Result<CookingStage> CreateRecipeStage(string description, CookingStageImage? image)
+        {
+            if (_stages.Any(x => x.Description == description))
+                return RecipeCardErrors.CookingStageAlreadyExists();
+
+            var stage = new CookingStage(this, image, description);
+            _stages.Add(stage);
+            return stage;
+        }
+    }   
 }

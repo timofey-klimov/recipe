@@ -24,5 +24,15 @@ namespace Recipes.Persistance.Repositories.Core
         {
             Entities().Update(entity);
         }
+
+        public async Task<int> CountAsync(CancellationToken token = default)
+        {
+            return await Entities().CountAsync(token);
+        }
+
+        public void AddRange(IEnumerable<T> entities)
+        {
+            Entities().AddRange(entities);
+        }
     }
 }

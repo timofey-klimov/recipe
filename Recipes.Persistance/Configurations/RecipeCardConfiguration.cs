@@ -17,6 +17,27 @@ namespace Recipes.Persistance.Configurations
                 .HasColumnType("datetime2(0)")
                 .HasDefaultValueSql("getdate()");
 
+            builder.HasMany(x => x.Stages)
+                .WithOne()
+                .HasForeignKey(x => x.RecipeCardId);
+
+            builder.HasMany(x => x.Ingredients)
+                .WithOne()
+                .HasForeignKey(x => x.RecipeCardId);
+
+            builder.OwnsMany(x => x.Hashtags, u =>
+            {
+                u.Property("RecipeCardId")
+                    .HasColumnName("RecipeCardId");
+
+                u.WithOwner()
+                    .HasForeignKey("RecipeCardId");
+
+                u.Property(x => x.Title)
+                    .IsRequired();
+                u.ToTable("Hashtags");
+            });
+
             builder.OwnsOne(x => x.Image, u =>
             {
                 u.WithOwner()
@@ -43,9 +64,6 @@ namespace Recipes.Persistance.Configurations
                 u.ToTable("RecipeMainImages");
             });
             builder.Ignore(x => x.Events);
-
-            builder.HasOne(x => x.Details)
-                .WithOne();
 
             builder.ToTable("RecipeCards");
         }

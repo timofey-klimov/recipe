@@ -53,6 +53,8 @@ namespace Recipes.Domain.Shared
         public Error Error { get; }
 
 
+
+
         public static Result<T> FromValue(T entity) => new Result<T>(entity, default, true);
         public static Result<T> FromError(Error error) => new Result<T>(default, error, false);
 

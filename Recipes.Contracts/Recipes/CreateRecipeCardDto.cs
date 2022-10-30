@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Recipes.Contracts.Recipes
+﻿namespace Recipes.Contracts.Recipes
 {
-    public record CreateRecipeCardDto(string Title, IFormFile Image);
+    public record CreateRecipeCardDto(string Title, string Remark, byte MealType, IEnumerable<string>? Hashtags);
     
 }

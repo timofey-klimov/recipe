@@ -11,14 +11,13 @@ namespace Recipes.Domain.Entities
 
         public string Description { get; private set; }
 
-        public int RecipeDetailsId { get; private set; }
-
+        public int RecipeCardId { get; private set; }
         private CookingStage() { }
-        internal CookingStage(RecipeCardDetails details, CookingStageImage? image, string description)
+        internal CookingStage(RecipeCard recipeCard, CookingStageImage? image, string description)
         {
             Image = image;
             Description = description;
-            RecipeDetailsId = details.Id;
+            RecipeCardId = recipeCard.Id;
         }
     }
 }

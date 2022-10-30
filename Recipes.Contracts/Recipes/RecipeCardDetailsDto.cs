@@ -1,4 +1,6 @@
-﻿namespace Recipes.Contracts.Recipes
+﻿using Recipes.Contracts.Ingredients;
+
+namespace Recipes.Contracts.Recipes
 {
     public record RecipeCardDetailsDto(
         int? Id,

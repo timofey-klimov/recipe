@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
-using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards;
 using Recipes.Contracts.Recipes;
 using Recipes.Contracts.Web;
 
@@ -21,19 +20,13 @@ namespace Recipes.Web.Controllers
         /// <param name="token"></param>
         /// <returns></returns>
         [HttpPost("create")]
-        public async Task<Response<RecipeCardDto>> CreateRecipeCard([FromForm] CreateRecipeCardDto recipeCardDto, CancellationToken token)
+        public async Task<Response<RecipeCardDto>> CreateRecipeCard(
+            [FromBody] CreateRecipeCardDto recipeCardDto, CancellationToken token)
         {
             return Created(await Mediator.Send(
-                new CreateRecipeCardCommand(recipeCardDto.Title, recipeCardDto.Image), cancellationToken: token)); 
+                new CreateRecipeCardCommand(
+                    recipeCardDto.Title, recipeCardDto.Remark, recipeCardDto.MealType, recipeCardDto.Hashtags), cancellationToken: token)); 
         }
 
-        /// <summary>
-        /// Получение пагинации карточек рецепта
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        [HttpGet("all")]
-        public async Task<PaginationResponse<RecipeCardDto>> GetRecipeCards(CancellationToken token) => 
-            Pagination(await Mediator.Send(new GetRecipeCardsQuery(), token));
     }
 }
