@@ -35,7 +35,6 @@ namespace Recipes.Domain.Entities
             Title = title;
             Remark = remark;
             MealType = mealType;
-            _hashtags = new List<Hashtag>();
             _ingredients = new List<Ingredient>();
             _stages = new List<CookingStage>();
             _hashtags = hashtags;
