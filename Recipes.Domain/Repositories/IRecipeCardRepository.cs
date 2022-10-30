@@ -8,5 +8,7 @@ namespace Recipes.Domain.Repositories
         Task<RecipeCard?> GetByIdWithImageAsync(int id, CancellationToken token = default);
         Task<RecipeCard?> GetByIdWithDetailsAsync(int id, CancellationToken token = default);
         Task<RecipeCard?> GetByIdWithIngredientsAsync(int id, CancellationToken token = default);
+
+        Task<RecipeCard?> GetByIdWithStagesAsync(int id, CancellationToken token = default);
     }
 }

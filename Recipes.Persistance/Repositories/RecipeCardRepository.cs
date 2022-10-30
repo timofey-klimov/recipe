@@ -34,5 +34,12 @@ namespace Recipes.Persistance.Repositories
                 .Include(x => x.Ingredients)
                 .FirstOrDefaultAsync(x => x.Id == id, token);
         }
+
+        public async Task<RecipeCard?> GetByIdWithStagesAsync(int id, CancellationToken token = default)
+        {
+            return await Entities()
+                .Include(x => x.Stages)
+                .FirstOrDefaultAsync(x => x.Id == id, token);
+        }
     }
 }
