@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Recipes.Domain.Entities;
+using System.Reflection.Emit;
 
 namespace Recipes.Persistance.Configurations
 {
@@ -64,6 +65,11 @@ namespace Recipes.Persistance.Configurations
                 u.ToTable("RecipeMainImages");
             });
             builder.Ignore(x => x.Events);
+
+            builder.Navigation(e => e.Hashtags)
+                .AutoInclude(false);
+            builder.Navigation(e => e.Image)
+                .AutoInclude(false);
 
             builder.ToTable("RecipeCards");
         }

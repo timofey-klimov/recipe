@@ -36,6 +36,9 @@ namespace Recipes.Persistance.Configurations
                 u.ToTable("CookingStageImages");
             });
 
+            builder.Navigation(x => x.Image)
+                .AutoInclude(false);
+
             builder.Property(x => x.Description)
                 .IsRequired();
 
