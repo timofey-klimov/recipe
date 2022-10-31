@@ -33,5 +33,7 @@ namespace Recipes.Web.Controllers
             HttpContext.Response.ContentType = "application/json";
             return data;
         }
+
+        protected IActionResult Created() => Created(string.Empty, default);
     }
 }

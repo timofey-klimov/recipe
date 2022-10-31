@@ -81,5 +81,23 @@ namespace Recipes.Domain.Entities
             _stages.Add(stage);
             return stage;
         }
+
+        /// <summary>
+        /// Создание картинки рецепта
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="contentType"></param>
+        /// <param name="size"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public RecipeMainImage CreateImage(byte[] content, string contentType, long size, string? fileName)
+        {
+            var recipeMainImage = new RecipeMainImage(content, contentType, size, fileName);
+
+            Image = recipeMainImage;
+
+            return recipeMainImage;
+
+        }
     }   
 }

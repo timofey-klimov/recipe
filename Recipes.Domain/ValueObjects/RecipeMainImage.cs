@@ -6,7 +6,7 @@ namespace Recipes.Domain.ValueObjects
     {
         private RecipeMainImage() { }
 
-        public RecipeMainImage(byte[] content, string contentType, long size, string? fileName = null)
+        internal RecipeMainImage(byte[] content, string contentType, long size, string? fileName = null)
         {
             Content = content;
             ContentType = contentType;
