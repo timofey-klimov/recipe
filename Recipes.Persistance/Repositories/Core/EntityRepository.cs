@@ -34,5 +34,7 @@ namespace Recipes.Persistance.Repositories.Core
         {
             Entities().AddRange(entities);
         }
+
+        protected int SkipItemsForPagination(int page, int itemsOnPage) => (page - 1) * itemsOnPage;
     }
 }

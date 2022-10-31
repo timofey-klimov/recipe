@@ -1,12 +1,8 @@
-﻿using Recipes.Contracts.Ingredients;
+﻿using Recipes.Contracts.CookingStages;
+using Recipes.Contracts.Ingredients;
 
 namespace Recipes.Contracts.Recipes
 {
-    public record RecipeCardDetailsDto(
-        int? Id,
-        string Remark,
-        byte MealType,
-        IEnumerable<string> HashTags, 
-        IEnumerable<IngredientDto> Ingredients);
+    public record RecipeCardDetailsDto(IEnumerable<IngredientDto> Ingredients, IEnumerable<CookingStageDto> Stages);
     
 }

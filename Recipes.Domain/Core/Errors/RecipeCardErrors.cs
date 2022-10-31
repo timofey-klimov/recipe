@@ -12,5 +12,11 @@ namespace Recipes.Domain.Core.Errors
 
         public static Error ImageIsNotCreated() =>
             new Error("RecipeCard.ImageIsNotCreated", "Main recipe image is not created");
+
+        public static Error IngredientsAreNotCreated() =>
+            new Error("RecipeCard.IngredientAreNotCreated", "Ingredients are not created");
+
+        public static Error StagesAreNotCreated() =>
+            new Error("RecipeCard.StagesAreNotCreated", "Stages are not created");
     }
 }

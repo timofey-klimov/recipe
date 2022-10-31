@@ -5,9 +5,9 @@ namespace Recipes.Infrustructure.Pagination
 {
     public class RecipeCardPaginationProvider : IPaginationProvider<RecipeCard>
     {
-        public int ItemsCount()
+        public Task<int> ItemsCount()
         {
-            return 30;
+            return Task.FromResult(30);
         }
     }
 }

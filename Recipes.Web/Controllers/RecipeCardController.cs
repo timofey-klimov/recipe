@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeImage;
+using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCardDetails;
+using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards;
 using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeImage;
 using Recipes.Contracts.Recipes;
 using Recipes.Contracts.Web;
@@ -53,8 +55,31 @@ namespace Recipes.Web.Controllers
         public async Task<FileResult> GetImage(int recipeId, CancellationToken token)
         {
             var result = await Mediator.Send(new GetRecipeImageQuery(recipeId), token);
-
             return File(result.Content, result.ContentType);
+        }
+
+        /// <summary>
+        /// Получение страницы с рецептами
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
+        [HttpGet("pages")]
+        public async Task<PaginationResponse<RecipeCardDto>> GetRecipesPage(CancellationToken token, int pageNumber = 1)
+        {
+            return Pagination(await Mediator.Send(new GetRecipeCardsQuery(pageNumber), token));
+        }
+
+        /// <summary>
+        /// Получение деталей рецепта
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("details/{recipeId}")]
+        public async Task<Response<RecipeCardDetailsDto>> GetDetails(int recipeId, CancellationToken token)
+        {
+            return Ok(await Mediator.Send(new GetRecipeCardDetailsQuery(recipeId), token));
         }
     }
 }

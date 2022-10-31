@@ -6,7 +6,7 @@
         string Remark,
         byte MealType,
         string CreatedAt,
-        IReadOnlyCollection<string>? hashtags
+        IReadOnlyCollection<string>? Hashtags
         );
     
 }

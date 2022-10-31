@@ -23,7 +23,6 @@ namespace Recipes.Persistance.Repositories
         {
             return await Entities()
                     .Include(x => x.Ingredients)
-                    .Include(x => x.Hashtags)
                     .Include(x => x.Stages)
                     .FirstOrDefaultAsync(x => x.Id == id, token);
         }
@@ -40,6 +39,19 @@ namespace Recipes.Persistance.Repositories
             return await Entities()
                 .Include(x => x.Stages)
                 .FirstOrDefaultAsync(x => x.Id == id, token);
+        }
+
+        public async Task<IReadOnlyCollection<RecipeCard>> GetRecipesForPageAsync(
+            int page, int itemsOnPage, CancellationToken token = default)
+        {
+            var skip = SkipItemsForPagination(page, itemsOnPage);
+
+            return await Entities()
+                .Include(x => x.Hashtags)
+                .Skip(skip)
+                .Take(itemsOnPage)
+                .OrderBy(x => x.CreateDate)
+                .ToListAsync();
         }
     }
 }
