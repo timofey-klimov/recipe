@@ -38,6 +38,7 @@ namespace Recipes.Persistance.Repositories
         {
             return await Entities()
                 .Include(x => x.Stages)
+                    .ThenInclude(x => x.Image)
                 .FirstOrDefaultAsync(x => x.Id == id, token);
         }
 

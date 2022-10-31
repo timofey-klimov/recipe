@@ -4,6 +4,7 @@ namespace Recipes.Domain.ValueObjects
 {
     public class CookingStageImage : ValueObject
     {
+        public static string ValueObjectName => nameof(CookingStageImage);
         private CookingStageImage() { }
 
         public CookingStageImage(byte[] content, string contentType, long size, string? fileName = null)

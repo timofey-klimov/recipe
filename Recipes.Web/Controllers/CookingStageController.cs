@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.CookingStages.CreateCookingStage;
+using Recipes.Application.UseCases.CookingStages.Queries;
 using Recipes.Contracts.CookingStages;
 using Recipes.Contracts.Web;
 
@@ -25,6 +26,21 @@ namespace Recipes.Web.Controllers
             [FromForm] CreateCookingStageDto form, int recipeId, CancellationToken token)
         {
             return Created(await Mediator.Send(new CreateCookingStageCommand(form.Description, recipeId, form.Image), token));
+        }
+
+        /// <summary>
+        /// Получение картинки шага приготовления
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <param name="stageId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("image/{recipeId}/{stageId}")]
+        public async Task<FileResult> GetImage(int recipeId, int stageId, CancellationToken token)
+        {
+            var image = await Mediator.Send(new GetStageImageQuery(recipeId, stageId), token);
+
+            return File(image.Content, image.ContentType);
         }
     }
 }
