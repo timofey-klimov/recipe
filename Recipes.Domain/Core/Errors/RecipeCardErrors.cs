@@ -9,5 +9,8 @@ namespace Recipes.Domain.Core.Errors
 
         public static Error CookingStageAlreadyExists() =>
             new Error("RecipeCard.CookingStageAlreadyExists", "Cooking stage already exists");
+
+        public static Error ImageIsNotCreated() =>
+            new Error("RecipeCard.ImageIsNotCreated", "Main recipe image is not created");
     }
 }

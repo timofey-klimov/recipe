@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeImage;
+using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeImage;
 using Recipes.Contracts.Recipes;
 using Recipes.Contracts.Web;
 
@@ -42,6 +43,18 @@ namespace Recipes.Web.Controllers
             await Mediator.Send(new CreateRecipeImageCommand(data.File, recipeId), token);
             return Created();
             
+        }
+
+        /// <summary>
+        /// Получение картинки рецепта
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("image/{recipeId}")]
+        public async Task<FileResult> GetImage(int recipeId, CancellationToken token)
+        {
+            var result = await Mediator.Send(new GetRecipeImageQuery(recipeId), token);
+
+            return File(result.Content, result.ContentType);
         }
     }
 }
