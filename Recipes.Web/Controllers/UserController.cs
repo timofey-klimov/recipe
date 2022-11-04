@@ -16,13 +16,13 @@ namespace Recipes.Web.Controllers
         }
 
         [HttpPost("sign-up")]
-        public async Task<Response<UserDto>> CreateUser([FromBody] SignUpUserDto userDto, CancellationToken token)
+        public async Task<Response<string>> CreateUser([FromBody] SignUpUserDto userDto, CancellationToken token)
         {
             return Created(await Mediator.Send(new SignUpUserCommand(userDto), token));
         }
 
         [HttpPost("sign-in")]
-        public async Task<Response<UserDto>> FindUser([FromBody] SignInUserDto userDto, CancellationToken token)
+        public async Task<Response<string>> FindUser([FromBody] SignInUserDto userDto, CancellationToken token)
         {
             return Ok(await Mediator.Send(new SignInUserCommand(userDto), token));
         }

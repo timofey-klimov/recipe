@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Recipes.Application.Core.Auth;
 using Recipes.Contracts;
 using Recipes.Domain.Core.Repositories;
 using Recipes.Domain.Core.Services;
@@ -8,26 +9,29 @@ using Recipes.Domain.Shared;
 
 namespace Recipes.Application.UseCases.Users.Commands.CreateUser
 {
-    public class SignUpUserHandler : IRequestHandler<SignUpUserCommand, UserDto>
+    public class SignUpUserHandler : IRequestHandler<SignUpUserCommand, string>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ISaltGenerator _saltGenerator;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IJwtTokenProvider _jwtTokenProvider;
         public SignUpUserHandler(
             IUserRepository userRepository, 
             IPasswordHasher passwordHasher, 
             ISaltGenerator saltGenerator, 
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IJwtTokenProvider jwtTokenProvider)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _passwordHasher = passwordHasher;
             _saltGenerator = saltGenerator;
             _unitOfWork = unitOfWork;
+            _jwtTokenProvider = jwtTokenProvider;
         }
 
-        public async Task<UserDto> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
         {
             _ = request ?? throw new ArgumentNullException(nameof(request));
             var (login, email, password) = request.User;
@@ -43,7 +47,7 @@ namespace Recipes.Application.UseCases.Users.Commands.CreateUser
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new UserDto(user.Id, user.Email, user.Login);
+            return _jwtTokenProvider.CreateToken(user);
         }
     }
 }

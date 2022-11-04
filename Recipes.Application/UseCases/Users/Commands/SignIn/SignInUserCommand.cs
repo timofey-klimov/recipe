@@ -4,5 +4,5 @@ using Recipes.Contracts.Auth;
 
 namespace Recipes.Application.UseCases.Users.Commands.SignIn
 {
-    public record SignInUserCommand(SignInUserDto User) : IRequest<UserDto>;
+    public record SignInUserCommand(SignInUserDto User) : IRequest<string>;
 }
