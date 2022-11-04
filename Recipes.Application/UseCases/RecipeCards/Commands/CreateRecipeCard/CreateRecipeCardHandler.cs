@@ -39,10 +39,8 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
             return new RecipeCardDto(
                 entity.Id, 
                 entity.Title, 
-                entity.Remark, 
                 (byte)entity.MealType, 
-                entity.CreateDate.ToShortDateString(),
-                entity.Hashtags?.Select(x => x.Title).ToList());
+                entity.CreateDate.ToShortDateString());
         }
     }
 }

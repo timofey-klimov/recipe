@@ -29,11 +29,8 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards
             var recipeDtos = cards.Select(card => new RecipeCardDto(
                     Id: card.Id,
                     Title: card.Title,
-                    Remark: card.Remark,
                     MealType: (byte)card.MealType,
-                    CreatedAt: card.CreateDate.ToShortDateString(),
-                    Hashtags: card.Hashtags.Select(hashtag => hashtag.Title)
-                    .ToList()))
+                    CreatedAt: card.CreateDate.ToShortDateString()))
                 .ToList();
 
             return recipeDtos.ToPagination(count);

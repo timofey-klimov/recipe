@@ -22,14 +22,17 @@ namespace Recipes.Persistance.Repositories
         public async Task<RecipeCard?> GetByIdWithDetailsAsync(int id, CancellationToken token = default)
         {
             return await Entities()
+                    .AsSplitQuery()
                     .Include(x => x.Ingredients)
                     .Include(x => x.Stages)
+                    .Include(x => x.Hashtags)
                     .FirstOrDefaultAsync(x => x.Id == id, token);
         }
 
         public async Task<RecipeCard?> GetByIdWithIngredientsAsync(int id, CancellationToken token = default)
         {
             return await Entities()
+                .AsSplitQuery()
                 .Include(x => x.Ingredients)
                 .FirstOrDefaultAsync(x => x.Id == id, token);
         }
@@ -37,6 +40,7 @@ namespace Recipes.Persistance.Repositories
         public async Task<RecipeCard?> GetByIdWithStagesAsync(int id, CancellationToken token = default)
         {
             return await Entities()
+                .AsSplitQuery()
                 .Include(x => x.Stages)
                     .ThenInclude(x => x.Image)
                 .FirstOrDefaultAsync(x => x.Id == id, token);
@@ -48,7 +52,6 @@ namespace Recipes.Persistance.Repositories
             var skip = SkipItemsForPagination(page, itemsOnPage);
 
             return await Entities()
-                .Include(x => x.Hashtags)
                 .Skip(skip)
                 .Take(itemsOnPage)
                 .OrderBy(x => x.CreateDate)

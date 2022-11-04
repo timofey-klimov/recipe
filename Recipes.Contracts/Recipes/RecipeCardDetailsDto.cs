@@ -3,6 +3,10 @@ using Recipes.Contracts.Ingredients;
 
 namespace Recipes.Contracts.Recipes
 {
-    public record RecipeCardDetailsDto(IEnumerable<IngredientDto> Ingredients, IEnumerable<CookingStageDto> Stages);
+    public record RecipeCardDetailsDto(
+        string Remark,
+        IEnumerable<HashtagDto> Hashtags,
+        IEnumerable<IngredientDto> Ingredients, 
+        IEnumerable<CookingStageDto> Stages);
     
 }

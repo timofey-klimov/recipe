@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Recipes.Contracts;
 using Recipes.Contracts.CookingStages;
 using Recipes.Contracts.Ingredients;
 using Recipes.Contracts.Recipes;
@@ -31,6 +32,8 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCardDetails
                 Guard.ThrowBuisnessError(RecipeCardErrors.StagesAreNotCreated());
 
             return new RecipeCardDetailsDto(
+                Remark: recipe.Remark,
+                Hashtags: recipe.Hashtags.Select(x => new HashtagDto(x.Title)).ToArray(),
                 Ingredients: recipe.Ingredients!.Select(i => new IngredientDto(i.Id, i.Name, i.Quantity)).ToArray(),
                 Stages: recipe.Stages!.Select(s => new CookingStageDto(s.Id, s.Description)).ToArray());
         }
