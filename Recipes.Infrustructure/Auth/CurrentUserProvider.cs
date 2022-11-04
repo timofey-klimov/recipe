@@ -11,19 +11,18 @@ namespace Recipes.Infrustructure.Auth
     public class CurrentUserProvider : ICurrentUserProvider
     {
         private readonly IHttpContextAccessor _contextAccessor;
-        private Lazy<int?> _userId;
         public CurrentUserProvider(IHttpContextAccessor contextAccessor)
         {
             _contextAccessor = contextAccessor;
-            _userId = new Lazy<int?>(() => GetUserId());
+            UserId = GetUserId();
         }
 
-        public int? UserId => _userId.Value;
+        public int? UserId { get; }
 
         private int? GetUserId()
         {
             var contextUser = _contextAccessor.HttpContext.User;
-            var idClaim = contextUser?.Claims?.FirstOrDefault(x => x.Value == "id");
+            var idClaim = contextUser?.Claims?.FirstOrDefault(x => x.Type == "id");
 
             return idClaim == null
                 ? default(int?)

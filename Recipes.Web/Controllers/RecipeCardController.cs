@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeImage;
@@ -24,6 +25,8 @@ namespace Recipes.Web.Controllers
         /// <param name="token"></param>
         /// <returns></returns>
         [HttpPost("create")]
+        [Authorize]
+        [AllowAnonymous]
         public async Task<Response<RecipeCardDto>> CreateRecipeCard(
             [FromBody] CreateRecipeCardDto recipeCardDto, CancellationToken token)
         {
