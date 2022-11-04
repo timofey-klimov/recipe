@@ -9,10 +9,10 @@ namespace Recipes.Domain.Entities
     public class RecipeCard : AggregateRoot
     {
         public static string EntityName => nameof(RecipeCard);
-
         public string Title { get; private set; }
-
         public string Remark { get; private set; }
+        public int? CreatedBy { get; private set; }
+
         public DateTime CreateDate { get; private set; }
 
         public MealType MealType { get; private set; }
@@ -30,21 +30,22 @@ namespace Recipes.Domain.Entities
         private RecipeCard() { }
 
         protected RecipeCard(
-            string title, string remark, MealType mealType, List<Hashtag>? hashtags)
+            string title, string remark, MealType mealType, int? createdBy, List<Hashtag>? hashtags)
         {
             Title = title;
             Remark = remark;
             MealType = mealType;
+            CreatedBy = createdBy;
             _ingredients = new List<Ingredient>();
             _stages = new List<CookingStage>();
             _hashtags = hashtags;
         }
         
         public static Result<RecipeCard> Create(
-            string title, string remark, byte mealType, List<string>? hashtags)
+            string title, string remark, byte mealType, int? createdBy, List<string>? hashtags)
         {
             var tags = hashtags?.Select(tag => new Hashtag(tag)).ToList();
-            return new RecipeCard(title, remark, (MealType)mealType, tags);
+            return new RecipeCard(title, remark, (MealType)mealType, createdBy, tags);
         }
 
         /// <summary>

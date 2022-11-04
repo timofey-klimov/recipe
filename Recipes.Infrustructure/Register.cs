@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.Core.Auth;
 using Recipes.Application.Core.Files;
@@ -23,6 +24,8 @@ namespace Recipes.Infrustructure
             services.AddSingleton<IFileProvider, FilesInDbProvider>();
             services.AddSingleton<IPaginationProvider<RecipeCard>, RecipeCardPaginationProvider>();
             services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
             services.Configure<JwtSecuritySettings>(
                 options => configuration.GetSection(nameof(JwtSecuritySettings))
                 .Bind(options));
