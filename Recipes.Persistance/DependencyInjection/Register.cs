@@ -21,6 +21,7 @@ namespace Recipes.Persistance.DependencyInjection
             services.AddScoped<IRecipeCardRepository, RecipeCardRepository>();
             services.AddScoped<ICookingStageRepository, CookingStageRepository>();
             services.AddScoped<IIngredientRepository, IngredientRepository>();
+            services.AddScoped<IFavouriteRecipeRepository, FavouriteRecipeRepository>();
 
             return services;
         }

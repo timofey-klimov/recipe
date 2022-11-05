@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Recipes.Application.UseCases.RecipeCards.Commands.AddToFavourite;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeImage;
 using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCardDetails;
@@ -83,6 +84,20 @@ namespace Recipes.Web.Controllers
         public async Task<Response<RecipeCardDetailsDto>> GetDetails(int recipeId, CancellationToken token)
         {
             return Ok(await Mediator.Send(new GetRecipeCardDetailsQuery(recipeId), token));
+        }
+
+        /// <summary>
+        /// Добавить рецепт в избранное
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("addToFavourite/{recipeId}")]
+        public async Task<IActionResult> AddToFavourite(int recipeId, CancellationToken token)
+        {
+            await Mediator.Send(new AddToFavouriteCommand(recipeId), token);
+            return Ok();
         }
     }
 }

@@ -11,6 +11,9 @@ namespace Recipes.Domain.Entities
         private string _salt;
         public static string EntityName => nameof(User);
 
+        private List<FavouriteRecipe> _favouriteRecipes;
+        public IReadOnlyCollection<FavouriteRecipe> FavouriteRecipes => _favouriteRecipes.AsReadOnly();
+
         private User() { }
 
         protected User(string login, string email, string password, string salt)
@@ -19,6 +22,7 @@ namespace Recipes.Domain.Entities
             Email = email;
             Password = password;
             _salt = salt;
+            _favouriteRecipes = new List<FavouriteRecipe>();
         }
         public string Login { get; private set; }
 
@@ -55,6 +59,16 @@ namespace Recipes.Domain.Entities
                 return UserErrors.LoginOrPasswordIsInvalid();
 
             return Result.Success();
-        } 
+        }
+        
+        public Result<FavouriteRecipe> AddRecipeToFavourites(RecipeCard recipe)
+        {
+            if (_favouriteRecipes.Any(x => x.RecipeId == recipe.Id))
+                return UserErrors.RecipeAlreadyAddedToFavourites();
+
+            var favourite = new FavouriteRecipe(recipe, this);
+            _favouriteRecipes.Add(favourite);
+            return favourite;
+        }
     }
 }

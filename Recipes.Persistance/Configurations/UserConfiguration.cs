@@ -28,6 +28,14 @@ namespace Recipes.Persistance.Configurations
             builder.Property(x => x.CreateDate)
                 .HasColumnType("datetime2(0)")
                 .HasDefaultValueSql("getdate()");
+
+            builder.HasMany(x => x.FavouriteRecipes)
+                .WithOne()
+                .HasForeignKey(x => x.LikedBy);
+
+            builder.Metadata
+                .FindNavigation("FavouriteRecipes")
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

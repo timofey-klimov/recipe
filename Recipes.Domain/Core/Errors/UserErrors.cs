@@ -12,5 +12,8 @@ namespace Recipes.Domain.Core.Errors
 
         public static Error LoginOrPasswordIsInvalid() =>
             new Error("User.LoginOrPasswordIsInvalid", "Login,email or password are invalid");
+
+        public static Error RecipeAlreadyAddedToFavourites() =>
+            new Error("User.RecipeAlreadyFavourite", "Recipe has been added to favourites");
     }
 }
