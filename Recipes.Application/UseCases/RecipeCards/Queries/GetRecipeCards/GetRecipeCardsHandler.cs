@@ -33,7 +33,7 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards
                     CreatedAt: card.CreateDate.ToShortDateString()))
                 .ToList();
 
-            return recipeDtos.ToPagination(count);
+            return recipeDtos.ToPagination(count, itemsOnPage);
         }
     }
 }

@@ -6,16 +6,19 @@
 
         public int Count { get; }
 
-        public PaginationResponse(IReadOnlyCollection<T> data, int count)
+        public int ItemsPerPage { get; }
+
+        public PaginationResponse(IReadOnlyCollection<T> data, int count, int itemsPerPage)
         {
             Data = data;
             Count = count;
+            ItemsPerPage = itemsPerPage;
         }
 
-        public static PaginationResponse<T> FromList(List<T> data, int count) =>
-            new PaginationResponse<T>(data, count);
+        public static PaginationResponse<T> FromList(List<T> data, int count, int itemsPerPage) =>
+            new PaginationResponse<T>(data, count, itemsPerPage);
 
-        public static PaginationResponse<T> FromEnumerable(IEnumerable<T> data, int count) =>
-            new PaginationResponse<T>(data.ToList(), count);
+        public static PaginationResponse<T> FromEnumerable(IEnumerable<T> data, int count, int itemsPerPage) =>
+            new PaginationResponse<T>(data.ToList(), count, itemsPerPage);
     }
 }
