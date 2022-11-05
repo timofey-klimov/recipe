@@ -1,20 +1,16 @@
 ﻿using Recipes.Domain.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Recipes.Domain.Entities
 {
     public class FavouriteRecipe : Entity
     {
+        public static string EntityName => nameof(FavouriteRecipe);
         public int RecipeId { get; private set; }
-        public RecipeCard Recipe { get; private set; }
-
         public int LikedBy { get; private set; }
 
         public DateTime LikeDate { get; private set; }
+
+        public bool Dislike { get; private set; }
 
         private FavouriteRecipe() { }
 
@@ -22,7 +18,11 @@ namespace Recipes.Domain.Entities
         {
             RecipeId = recipe.Id;
             LikedBy = user.Id;
-            Recipe = recipe;
+            Dislike = false;
         }
+
+        public void AddToFavourites() => Dislike = false;
+
+        public void RemoveFromFavourites() => Dislike = true;
     }
 }

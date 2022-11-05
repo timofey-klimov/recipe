@@ -12,7 +12,7 @@ using Recipes.Persistance;
 namespace Recipes.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221105150531_FavouriteRecipes")]
+    [Migration("20221105155208_FavouriteRecipes")]
     partial class FavouriteRecipes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,9 @@ namespace Recipes.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Dislike")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("LikeDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2(0)")
@@ -68,8 +71,6 @@ namespace Recipes.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LikedBy");
-
-                    b.HasIndex("RecipeId");
 
                     b.ToTable("FavouriteRecipes", (string)null);
                 });
@@ -217,14 +218,6 @@ namespace Recipes.Persistance.Migrations
                         .HasForeignKey("LikedBy")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Recipes.Domain.Entities.RecipeCard", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>

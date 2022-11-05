@@ -15,11 +15,25 @@ namespace Recipes.Web.Controllers
         {
         }
 
+        /// <summary>
+        /// Зарегистрироваться
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+
         [HttpPost("sign-up")]
         public async Task<Response<string>> CreateUser([FromBody] SignUpUserDto userDto, CancellationToken token)
         {
             return Created(await Mediator.Send(new SignUpUserCommand(userDto), token));
         }
+
+        /// <summary>
+        /// Войти
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
 
         [HttpPost("sign-in")]
         public async Task<Response<string>> FindUser([FromBody] SignInUserDto userDto, CancellationToken token)

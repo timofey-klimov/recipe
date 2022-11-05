@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Recipes.Application.Core.Auth;
+using Recipes.Domain.Core.Errors;
 using Recipes.Domain.Core.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
@@ -40,13 +41,23 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.AddToFavourite
             if (user is null)
                 Guard.NotFound(User.EntityName);
 
-            var favouriteRecipeResult = user.AddRecipeToFavourites(recipe!);
+            var favouriteRecipe =
+                    user.FavouriteRecipes.FirstOrDefault(x => x.RecipeId == request.RecipeId);
 
-            if (favouriteRecipeResult.HasError)
-                Guard.ThrowBuisnessError(favouriteRecipeResult.Error);
+            if (favouriteRecipe is not null)
+            {
+                if (!favouriteRecipe.Dislike)
+                    Guard.ThrowBuisnessError(UserErrors.RecipeAlreadyAddedToFavourites());
+                else
+                    favouriteRecipe.AddToFavourites();
 
-            _favouriteRecipeRepository.Add(favouriteRecipeResult.Entity);
+                _favouriteRecipeRepository.Update(favouriteRecipe);
+                await _unitOfWork.SaveChangesAsync();
+                return Unit.Value;
+            }
 
+            var entity = user.AddRecipeToFavourites(recipe!);
+            _favouriteRecipeRepository.Add(entity);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

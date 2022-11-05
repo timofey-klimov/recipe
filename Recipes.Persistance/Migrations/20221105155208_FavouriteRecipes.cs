@@ -17,17 +17,12 @@ namespace Recipes.Persistance.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RecipeId = table.Column<int>(type: "int", nullable: false),
                     LikedBy = table.Column<int>(type: "int", nullable: false),
-                    LikeDate = table.Column<DateTime>(type: "datetime2(0)", nullable: false, defaultValueSql: "getdate()")
+                    LikeDate = table.Column<DateTime>(type: "datetime2(0)", nullable: false, defaultValueSql: "getdate()"),
+                    Dislike = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FavouriteRecipes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FavouriteRecipes_RecipeCards_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "RecipeCards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FavouriteRecipes_Users_LikedBy",
                         column: x => x.LikedBy,
@@ -40,11 +35,6 @@ namespace Recipes.Persistance.Migrations
                 name: "IX_FavouriteRecipes_LikedBy",
                 table: "FavouriteRecipes",
                 column: "LikedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FavouriteRecipes_RecipeId",
-                table: "FavouriteRecipes",
-                column: "RecipeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

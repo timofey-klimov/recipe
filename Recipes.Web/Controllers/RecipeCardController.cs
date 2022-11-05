@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.RecipeCards.Commands.AddToFavourite;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeImage;
+using Recipes.Application.UseCases.RecipeCards.Commands.RemoveFromFavourites;
 using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCardDetails;
 using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards;
 using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeImage;
@@ -93,10 +94,25 @@ namespace Recipes.Web.Controllers
         /// <param name="token"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("addToFavourite/{recipeId}")]
+        [HttpPost("like/{recipeId}")]
         public async Task<IActionResult> AddToFavourite(int recipeId, CancellationToken token)
         {
             await Mediator.Send(new AddToFavouriteCommand(recipeId), token);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Удалить из избранного
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("dislike/{recipeId}")]
+        public async Task<IActionResult> RemoveFromFavourites(int recipeId, CancellationToken token)
+        {
+            await Mediator.Send(new RemoveFromFavouritesCommand(recipeId), token);
+
             return Ok();
         }
     }

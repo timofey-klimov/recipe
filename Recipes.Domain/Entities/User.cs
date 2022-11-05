@@ -61,11 +61,8 @@ namespace Recipes.Domain.Entities
             return Result.Success();
         }
         
-        public Result<FavouriteRecipe> AddRecipeToFavourites(RecipeCard recipe)
+        public FavouriteRecipe AddRecipeToFavourites(RecipeCard recipe)
         {
-            if (_favouriteRecipes.Any(x => x.RecipeId == recipe.Id))
-                return UserErrors.RecipeAlreadyAddedToFavourites();
-
             var favourite = new FavouriteRecipe(recipe, this);
             _favouriteRecipes.Add(favourite);
             return favourite;
