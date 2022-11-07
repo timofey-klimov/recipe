@@ -16,15 +16,10 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
                 .WithMessage("Remark should not be null")
                 .WithErrorCode("remark");
 
-            RuleForEach(x => x.Hashtags)
-                .ChildRules(hashtag =>
-                {
-                    hashtag.RuleFor(x => x)
-                        .NotEmpty()
-                        .WithMessage("Hashtag should not be null")
-                        .WithErrorCode("hashtag");
-                })
-                .When(x => x.Hashtags?.Any() == true);
+            RuleFor(x => x.File)
+                .NotNull()
+                .WithMessage("Image should not be null")
+                .WithErrorCode("image");
         }
     }
 }

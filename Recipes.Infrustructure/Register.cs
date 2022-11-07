@@ -29,6 +29,8 @@ namespace Recipes.Infrustructure
             services.Configure<JwtSecuritySettings>(
                 options => configuration.GetSection(nameof(JwtSecuritySettings))
                 .Bind(options));
+            services.AddScoped<IPhysicalFileProvider, PhysicalFileProvider>();
+            services.AddScoped<IFileProviderFactory, FileProviderFactory>();
             return services;
         }
     }

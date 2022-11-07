@@ -15,22 +15,28 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
         private readonly IRecipeCardRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICurrentUserProvider _userProvider;
+        private readonly IFileProviderFactory _fileProviderFactory;
         public CreateRecipeCardHandler(
             IRecipeCardRepository repository, 
             IUnitOfWork unitOfWork,
-            ICurrentUserProvider userProvider)
+            ICurrentUserProvider userProvider,
+            IFileProviderFactory fileProviderFactory)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
+            _fileProviderFactory = fileProviderFactory;
         }
 
         public async Task<RecipeCardDto> Handle(CreateRecipeCardCommand request, CancellationToken cancellationToken)
         {
             var createdBy = _userProvider.UserId;
 
+            var fileProvider = _fileProviderFactory.GetPhysicalFileProvider();
+            var imageSource = await fileProvider.SaveFileAsync(request.File, cancellationToken);
+
             var recipeResult = RecipeCard
-                .Create(request.Title, request.Remark, request.MealType, createdBy, request.Hashtags?.ToList());
+                .Create(request.Title, request.Remark, request.MealType, createdBy, imageSource);
 
             if (recipeResult.HasError)
                 Guard.ThrowBuisnessError(recipeResult.Error);
@@ -45,7 +51,8 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
                 entity.Id, 
                 entity.Title, 
                 (byte)entity.MealType, 
-                entity.CreateDate.ToShortDateString());
+                entity.CreateDate.ToShortDateString(),
+                entity.ImageSource);
         }
     }
 }

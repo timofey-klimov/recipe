@@ -4,6 +4,6 @@ using Recipes.Contracts.Recipes;
 
 namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
 {
-    public record CreateRecipeCardCommand(string Title, string Remark, byte MealType, IEnumerable<string>? Hashtags) 
+    public record CreateRecipeCardCommand(string Title, string Remark, byte MealType, IFormFile File) 
         : IRequest<RecipeCardDto>;
 }

@@ -30,7 +30,8 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards
                     Id: card.Id,
                     Title: card.Title,
                     MealType: (byte)card.MealType,
-                    CreatedAt: card.CreateDate.ToShortDateString()))
+                    CreatedAt: card.CreateDate.ToShortDateString(),
+                    imageSource: card.ImageSource))
                 .ToList();
 
             return recipeDtos.ToPagination(count, itemsOnPage);

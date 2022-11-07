@@ -13,10 +13,11 @@ namespace Recipes.Domain.Entities
         public string Remark { get; private set; }
         public int? CreatedBy { get; private set; }
 
+        public string ImageSource { get; private set; }
+
         public DateTime CreateDate { get; private set; }
 
         public MealType MealType { get; private set; }
-        public RecipeMainImage Image { get; private set; }
 
         private List<Hashtag>? _hashtags;
         public IReadOnlyCollection<Hashtag> Hashtags => _hashtags;
@@ -30,22 +31,22 @@ namespace Recipes.Domain.Entities
         private RecipeCard() { }
 
         protected RecipeCard(
-            string title, string remark, MealType mealType, int? createdBy, List<Hashtag>? hashtags)
+            string title, string remark, MealType mealType, int? createdBy, string imageSource)
         {
             Title = title;
             Remark = remark;
             MealType = mealType;
             CreatedBy = createdBy;
+            ImageSource = imageSource;
             _ingredients = new List<Ingredient>();
             _stages = new List<CookingStage>();
-            _hashtags = hashtags;
+            _hashtags = new List<Hashtag>();
         }
         
         public static Result<RecipeCard> Create(
-            string title, string remark, byte mealType, int? createdBy, List<string>? hashtags)
+            string title, string remark, byte mealType, int? createdBy, string imageSource)
         {
-            var tags = hashtags?.Select(tag => new Hashtag(tag)).ToList();
-            return new RecipeCard(title, remark, (MealType)mealType, createdBy, tags);
+            return new RecipeCard(title, remark, (MealType)mealType, createdBy, imageSource);
         }
 
         /// <summary>
@@ -81,24 +82,6 @@ namespace Recipes.Domain.Entities
             var stage = new CookingStage(this, image, description);
             _stages.Add(stage);
             return stage;
-        }
-
-        /// <summary>
-        /// Создание картинки рецепта
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="contentType"></param>
-        /// <param name="size"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public RecipeMainImage CreateImage(byte[] content, string contentType, long size, string? fileName)
-        {
-            var recipeMainImage = new RecipeMainImage(content, contentType, size, fileName);
-
-            Image = recipeMainImage;
-
-            return recipeMainImage;
-
         }
     }   
 }

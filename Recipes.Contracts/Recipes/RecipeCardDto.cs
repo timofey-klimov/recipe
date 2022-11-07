@@ -4,6 +4,6 @@
         int? Id,
         string Title,
         byte MealType,
-        string CreatedAt);
-    
+        string CreatedAt,
+        string imageSource);
 }
