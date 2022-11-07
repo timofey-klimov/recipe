@@ -10,35 +10,6 @@ namespace Recipes.Persistance.Configurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.OwnsOne(x => x.Image, u =>
-            {
-                u.WithOwner()
-                    .HasForeignKey("CookingStageId");
-                u.Property("CookingStageId")
-                    .HasColumnName("CookingStageId");
-
-                u.Property(x => x.Content)
-                    .HasColumnName("Content")
-                    .IsRequired();
-
-                u.Property(x => x.ContentType)
-                    .HasColumnName("ContentType")
-                    .IsRequired();
-
-                u.Property(x => x.Size)
-                    .HasColumnName("Size")
-                    .HasColumnType("bigint")
-                    .IsRequired();
-
-                u.Property(x => x.FileName)
-                    .HasColumnName("FileName");
-
-                u.ToTable("CookingStageImages");
-            });
-
-            builder.Navigation(x => x.Image)
-                .AutoInclude(false);
-
             builder.Property(x => x.Description)
                 .IsRequired();
 

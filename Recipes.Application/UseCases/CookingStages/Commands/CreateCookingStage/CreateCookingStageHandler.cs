@@ -18,17 +18,17 @@ namespace Recipes.Application.UseCases.CookingStages.CreateCookingStage
     {
         private readonly IRecipeCardRepository _recipeCardRepository;
         private readonly ICookingStageRepository _cookingStageRepository;
-        private readonly IFileProvider _fileProvider;
+        private readonly IFileProviderFactory _fileProviderFactory;
         private readonly IUnitOfWork _unitOfWork;
         public CreateCookingStageHandler(
             IRecipeCardRepository recipeCardRepository,
             ICookingStageRepository cookingStageRepository,
-            IFileProvider fileProvider,
+            IFileProviderFactory fileProviderFactory,
             IUnitOfWork unitOfWork)
         {
             _recipeCardRepository = recipeCardRepository;
             _cookingStageRepository = cookingStageRepository;
-            _fileProvider = fileProvider;
+            _fileProviderFactory = fileProviderFactory;
             _unitOfWork = unitOfWork;
         }
 
@@ -42,17 +42,13 @@ namespace Recipes.Application.UseCases.CookingStages.CreateCookingStage
 
             var file = request.Image;
 
-            var uploadImage = file is null
-                ? default
-                : await _fileProvider
-                .CreateUploadFileAsync(
-                    file.ContentType, file.FileName, file.Length, file.OpenReadStream(), cancellationToken);
+            var fileProvider = _fileProviderFactory.GetPhysicalFileProvider();
 
-            var cookingStageImage = uploadImage is null
-                ? default
-                : new CookingStageImage(uploadImage.Content, uploadImage.ContentType, uploadImage.Size, uploadImage.FileName);
-
-            var stageResult = recipe.CreateRecipeStage(request.Description, cookingStageImage);
+            var stageResult = recipe!.CreateRecipeStage(
+                description: request.Description,
+                imagePath: file == null
+                    ? default
+                    : await fileProvider.SaveFileAsync(file, cancellationToken));
 
             if (stageResult.HasError)
                 Guard.ThrowBuisnessError(stageResult.Error);
@@ -61,7 +57,9 @@ namespace Recipes.Application.UseCases.CookingStages.CreateCookingStage
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new CookingStageDto(stageResult.Entity.Id, stageResult.Entity.Description);
+            return new CookingStageDto(stageResult.Entity.Id,
+                stageResult.Entity.Description,
+                stageResult.Entity.ImageSource);
         }
     }
 }

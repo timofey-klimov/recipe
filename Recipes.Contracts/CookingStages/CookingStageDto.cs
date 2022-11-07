@@ -1,4 +1,4 @@
 ﻿namespace Recipes.Contracts.CookingStages
 {
-    public record CookingStageDto(int? Id, string Description);
+    public record CookingStageDto(int? Id, string Description, string? imageSource);
 }

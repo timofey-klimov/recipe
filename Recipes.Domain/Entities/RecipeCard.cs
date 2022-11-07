@@ -74,12 +74,12 @@ namespace Recipes.Domain.Entities
         /// <param name="description"></param>
         /// <param name="image"></param>
         /// <returns></returns>
-        public Result<CookingStage> CreateRecipeStage(string description, CookingStageImage? image)
+        public Result<CookingStage> CreateRecipeStage(string description, string? imagePath)
         {
             if (_stages.Any(x => x.Description == description))
                 return RecipeCardErrors.CookingStageAlreadyExists();
 
-            var stage = new CookingStage(this, image, description);
+            var stage = new CookingStage(this, imagePath, description);
             _stages.Add(stage);
             return stage;
         }
