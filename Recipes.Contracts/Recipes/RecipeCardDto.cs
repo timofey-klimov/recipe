@@ -5,5 +5,5 @@
         string Title,
         byte MealType,
         string CreatedAt,
-        string imageSource);
+        string ImageSource);
 }
