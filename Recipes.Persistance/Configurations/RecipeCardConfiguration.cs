@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Recipes.Domain.Entities;
+using Recipes.Domain.Enumerations;
 using System.Reflection.Emit;
 
 namespace Recipes.Persistance.Configurations
@@ -40,6 +41,11 @@ namespace Recipes.Persistance.Configurations
             });
 
             builder.Ignore(x => x.Events);
+
+            builder.Property(x => x.MealType)
+                .HasConversion(
+                    x => x.Value, 
+                    u => MealEnumeration.FromValue(u));
 
             builder.Navigation(e => e.Hashtags)
                 .AutoInclude(false);

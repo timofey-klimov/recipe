@@ -29,7 +29,7 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards
             var recipeDtos = cards.Select(card => new RecipeCardDto(
                     Id: card.Id,
                     Title: card.Title,
-                    MealType: (byte)card.MealType,
+                    MealType: card.MealType.Name,
                     CreatedAt: card.CreateDate.ToShortDateString(),
                     ImageSource: card.ImageSource))
                 .ToList();

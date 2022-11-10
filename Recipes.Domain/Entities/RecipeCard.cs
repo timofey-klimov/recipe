@@ -1,6 +1,6 @@
 ﻿using Recipes.Domain.Core;
 using Recipes.Domain.Core.Errors;
-using Recipes.Domain.Enums;
+using Recipes.Domain.Enumerations;
 using Recipes.Domain.Shared;
 using Recipes.Domain.ValueObjects;
 
@@ -17,7 +17,7 @@ namespace Recipes.Domain.Entities
 
         public DateTime CreateDate { get; private set; }
 
-        public MealType MealType { get; private set; }
+        public MealEnumeration MealType { get; private set; }
 
         private List<Hashtag>? _hashtags;
         public IReadOnlyCollection<Hashtag> Hashtags => _hashtags;
@@ -31,7 +31,7 @@ namespace Recipes.Domain.Entities
         private RecipeCard() { }
 
         protected RecipeCard(
-            string title, string remark, MealType mealType, int? createdBy, string imageSource)
+            string title, string remark, MealEnumeration mealType, int? createdBy, string imageSource)
         {
             Title = title;
             Remark = remark;
@@ -44,9 +44,9 @@ namespace Recipes.Domain.Entities
         }
         
         public static Result<RecipeCard> Create(
-            string title, string remark, byte mealType, int? createdBy, string imageSource)
+            string title, string remark, MealEnumeration mealType, int? createdBy, string imageSource)
         {
-            return new RecipeCard(title, remark, (MealType)mealType, createdBy, imageSource);
+            return new RecipeCard(title, remark, mealType, createdBy, imageSource);
         }
 
         /// <summary>

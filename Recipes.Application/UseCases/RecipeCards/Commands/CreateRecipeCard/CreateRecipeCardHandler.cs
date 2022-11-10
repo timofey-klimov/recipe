@@ -2,8 +2,10 @@
 using Recipes.Application.Core.Auth;
 using Recipes.Application.Core.Files;
 using Recipes.Contracts.Recipes;
+using Recipes.Domain.Core.Errors;
 using Recipes.Domain.Core.Repositories;
 using Recipes.Domain.Entities;
+using Recipes.Domain.Enumerations;
 using Recipes.Domain.Repositories;
 using Recipes.Domain.Shared;
 using Recipes.Domain.ValueObjects;
@@ -34,9 +36,12 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
 
             var fileProvider = _fileProviderFactory.GetPhysicalFileProvider();
             var imageSource = await fileProvider.SaveFileAsync(request.File, cancellationToken);
+            var mealType = MealEnumeration.FromValue(request.MealType);
+            if (mealType == null)
+                Guard.ThrowBuisnessError(RecipeCardErrors.IncorrectMealType());
 
             var recipeResult = RecipeCard
-                .Create(request.Title, request.Remark, request.MealType, createdBy, imageSource);
+                .Create(request.Title, request.Remark, mealType, createdBy, imageSource);
 
             if (recipeResult.HasError)
                 Guard.ThrowBuisnessError(recipeResult.Error);
@@ -50,7 +55,7 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
             return new RecipeCardDto(
                 entity.Id, 
                 entity.Title, 
-                (byte)entity.MealType, 
+                mealType.Name, 
                 entity.CreateDate.ToShortDateString(),
                 entity.ImageSource);
         }

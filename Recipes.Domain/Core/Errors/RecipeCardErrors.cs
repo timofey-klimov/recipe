@@ -18,5 +18,8 @@ namespace Recipes.Domain.Core.Errors
 
         public static Error StagesAreNotCreated() =>
             new Error("RecipeCard.StagesAreNotCreated", "Stages are not created");
+
+        public static Error IncorrectMealType() =>
+            new Error("RecipeCard.IncorrectMealType", "Mealtype not found");
     }
 }

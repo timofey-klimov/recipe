@@ -202,7 +202,7 @@ namespace Recipes.Persistance.Migrations
 
             modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
                 {
-                    b.OwnsMany("Recipes.Domain.ValueObjects.Hashtag", "Hashtags", b1 =>
+                    b.OwnsMany("Recipes.Domain.Entities.RecipeCard.Hashtags#Recipes.Domain.ValueObjects.Hashtag", "Hashtags", b1 =>
                         {
                             b1.Property<int>("RecipeCardId")
                                 .HasColumnType("int")
