@@ -2,6 +2,7 @@
 {
     public class PaginationResponse<T>
     {
+        public bool Success => true;
         public IReadOnlyCollection<T> Data { get; }
 
         public int Count { get; }

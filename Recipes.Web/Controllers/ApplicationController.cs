@@ -17,14 +17,14 @@ namespace Recipes.Web.Controllers
             HttpContext.Response.StatusCode = StatusCodes.Status201Created;
             HttpContext.Response.ContentType = "application/json";
 
-            return Response<T>.Create(data);
+            return Response<T>.Create(data, true);
         }
 
         protected Response<T> Ok<T>(T data)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status200OK;
             HttpContext.Response.ContentType = "application/json";
-            return Response<T>.Create(data);
+            return Response<T>.Create(data, true);
         }
 
         protected T Pagination<T>(T data)

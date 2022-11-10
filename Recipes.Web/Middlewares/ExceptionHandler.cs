@@ -40,7 +40,8 @@ namespace Recipes.Web.Middlewares
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             var response = new
             {
-                Title = "Internal Server Error"
+                Title = "Internal Server Error",
+                Success = false
             };
             await context.Response.WriteAsJsonAsync(response);
         }
@@ -63,7 +64,8 @@ namespace Recipes.Web.Middlewares
                     {
                         Title = "Buisness Error",
                         Description = buisnessError.GetDescription(),
-                        Code = buisnessError.GetCode()
+                        Code = buisnessError.GetCode(),
+                        Success = false
                     };
                     await context.Response.WriteAsJsonAsync(buisnessErrorresponse);
                     break;
@@ -76,7 +78,8 @@ namespace Recipes.Web.Middlewares
             {
                 Title = "Validation failure",
                 Description = "Validation errors has been occured",
-                Errors = validationException.Errors
+                Errors = validationException.Errors,
+                Success = false
             };
             await context.Response.WriteAsJsonAsync(response);
 
