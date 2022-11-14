@@ -28,7 +28,6 @@ namespace Recipes.Web.Middlewares
                 await HandleDomainException(domainException, context);
             }
             catch (Exception ex)
-            
             {
                 await HandleInternalError(ex, context);
             }
@@ -59,7 +58,7 @@ namespace Recipes.Web.Middlewares
                     await context.Response.WriteAsJsonAsync(notFoundresponse);
                     break;
                 case BuisnessErrorDomainException buisnessError:
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    context.Response.StatusCode = StatusCodes.Status409Conflict;
                     var buisnessErrorresponse = new
                     {
                         Title = "Buisness Error",

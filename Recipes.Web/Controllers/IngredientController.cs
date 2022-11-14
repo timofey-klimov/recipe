@@ -17,7 +17,7 @@ namespace Recipes.Web.Controllers
         /// Добавление ингредиентов в рецепт
         /// </summary>
         /// <returns></returns>
-        [HttpPost("addInRecipe/{recipeId}")]
+        [HttpPost("create/{recipeId}")]
         public async Task<Response<IReadOnlyCollection<IngredientDto>>> AddIngredientsToRecipe(
             [FromBody] RecipeIngredientsDto data, int recipeId, CancellationToken token)
         {

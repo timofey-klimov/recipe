@@ -5,21 +5,21 @@ namespace Recipes.Domain.Core.Errors
     public static class RecipeCardErrors
     {
         public static Error IngredientAlreadyExists(string name, string quantity) =>
-            new Error("RecipeCard.IngredientAlreadyExists", $"Ingredient {name}:{quantity} already exists");
+            new Error("RecipeCard.IngredientAlreadyExists", "Ингредиенты повторяются");
 
         public static Error CookingStageAlreadyExists() =>
-            new Error("RecipeCard.CookingStageAlreadyExists", "Cooking stage already exists");
+            new Error("RecipeCard.CookingStageAlreadyExists", "Шаги приготовления повторяются");
 
         public static Error ImageIsNotCreated() =>
-            new Error("RecipeCard.ImageIsNotCreated", "Main recipe image is not created");
+            new Error("RecipeCard.ImageIsNotCreated", "Картинка рецепта не создана");
 
         public static Error IngredientsAreNotCreated() =>
-            new Error("RecipeCard.IngredientAreNotCreated", "Ingredients are not created");
+            new Error("RecipeCard.IngredientAreNotCreated", "Ингредиенты не созданы");
 
         public static Error StagesAreNotCreated() =>
-            new Error("RecipeCard.StagesAreNotCreated", "Stages are not created");
+            new Error("RecipeCard.StagesAreNotCreated", "Шаги приготовления не созданы");
 
         public static Error IncorrectMealType() =>
-            new Error("RecipeCard.IncorrectMealType", "Mealtype not found");
+            new Error("RecipeCard.IncorrectMealType", "Тип рецепта не верный");
     }
 }

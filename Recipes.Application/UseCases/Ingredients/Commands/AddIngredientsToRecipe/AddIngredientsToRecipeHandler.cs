@@ -32,7 +32,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.AddIngredientsToReci
             var ingredientsResults = request.Items.Select(x => recipe!.AddIngredient(x.Name, x.Quantity)).ToArray();
 
             if (ingredientsResults.Any(x => x.HasError))
-                Guard.ThrowBuisnessError(ingredientsResults.Select(x => x.Error).First());
+                Guard.ThrowBuisnessError(ingredientsResults.First(x => x.HasError).Error);
 
             var ingredients = ingredientsResults.Select(x => x.Entity).ToArray();
 
