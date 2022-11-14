@@ -11,11 +11,6 @@ namespace Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard
                 .WithMessage("Title should not be null")
                 .WithErrorCode("title");
 
-            RuleFor(x => x.Remark)
-                .NotNull()
-                .WithMessage("Remark should not be null")
-                .WithErrorCode("remark");
-
             RuleFor(x => x.File)
                 .NotNull()
                 .WithMessage("Image should not be null")
