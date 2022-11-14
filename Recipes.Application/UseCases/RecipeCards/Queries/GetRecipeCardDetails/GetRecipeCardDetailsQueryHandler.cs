@@ -32,6 +32,9 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCardDetails
                 Guard.ThrowBuisnessError(RecipeCardErrors.StagesAreNotCreated());
 
             return new RecipeCardDetailsDto(
+                RecipeCard: 
+                    new RecipeCardDto(
+                        recipe.Id, recipe.Title, recipe.MealType.Name, recipe.CreateDate.ToShortDateString(), recipe.ImageSource),
                 Remark: recipe.Remark,
                 Hashtags: recipe.Hashtags.Select(x => new HashtagDto(x.Title)).ToArray(),
                 Ingredients: recipe.Ingredients!.Select(i => new IngredientDto(i.Id, i.Name, i.Quantity)).ToArray(),
