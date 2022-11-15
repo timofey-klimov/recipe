@@ -13,7 +13,7 @@ namespace Recipes.Persistance.Repositories.Core
         {
         }
 
-        public async Task<T?> GetByIdAsync(int id, CancellationToken token = default)
+        public virtual async Task<T?> GetByIdAsync(int id, CancellationToken token = default)
         {
             return await DbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, token);
         }

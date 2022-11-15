@@ -8,10 +8,11 @@ using Recipes.Domain.Core.Services;
 using Recipes.Domain.Entities;
 using Recipes.Infrustructure.Auth;
 using Recipes.Infrustructure.Auth.Models;
+using Recipes.Infrustructure.Caching;
 using Recipes.Infrustructure.Files;
 using Recipes.Infrustructure.Pagination;
 using Recipes.Infrustructure.Security;
-using System.Runtime;
+using Recipes.Persistance.Repositories.Cache.Core;
 
 namespace Recipes.Infrustructure
 {
@@ -31,6 +32,8 @@ namespace Recipes.Infrustructure
                 .Bind(options));
             services.AddScoped<IPhysicalFileProvider, PhysicalFileProvider>();
             services.AddScoped<IFileProviderFactory, FileProviderFactory>();
+            services.AddScoped<ICachingProvider, CachingProvider>();
+            services.AddMemoryCache();
             return services;
         }
     }
