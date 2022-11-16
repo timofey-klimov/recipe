@@ -4,14 +4,14 @@ namespace Recipes.Domain.Enumerations
 {
     public class MealEnumeration : Enumeration<MealEnumeration>
     {
-        public MealEnumeration Salad = new SaladMeal();
-        public MealEnumeration Soup = new SoupMeal();
-        public MealEnumeration Meat = new MeatMeal();
-        public MealEnumeration Breakfast = new BreakfastMeal();
-        public MealEnumeration SideDishes = new SideDishesMeal();
-        public MealEnumeration Bakery = new BakeryMeal();
-        public MealEnumeration Dessert = new DessertMeal();
-        public MealEnumeration Pickless = new PicklessMeal();
+        public static MealEnumeration Salad = new SaladMeal();
+        public static MealEnumeration Soup = new SoupMeal();
+        public static MealEnumeration Meat = new MeatMeal();
+        public static MealEnumeration Breakfast = new BreakfastMeal();
+        public static MealEnumeration SideDishes = new SideDishesMeal();
+        public static MealEnumeration Bakery = new BakeryMeal();
+        public static MealEnumeration Dessert = new DessertMeal();
+        public static MealEnumeration Pickless = new PicklessMeal();
 
         protected MealEnumeration(byte value, string name) 
             : base(value, name)
