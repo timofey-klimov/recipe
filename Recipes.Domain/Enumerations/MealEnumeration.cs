@@ -4,53 +4,91 @@ namespace Recipes.Domain.Enumerations
 {
     public class MealEnumeration : Enumeration<MealEnumeration>
     {
-
-        public static MealEnumeration Breakfast = new BreakfastMeal();
-
-        public static MealEnumeration Dinner = new DinnerMeal();
-
-        public static MealEnumeration Snack = new SnackMeal();
-
-        public static MealEnumeration Evening = new EveningMeal();
+        public MealEnumeration Salad = new SaladMeal();
+        public MealEnumeration Soup = new SoupMeal();
+        public MealEnumeration Meat = new MeatMeal();
+        public MealEnumeration Breakfast = new BreakfastMeal();
+        public MealEnumeration SideDishes = new SideDishesMeal();
+        public MealEnumeration Bakery = new BakeryMeal();
+        public MealEnumeration Dessert = new DessertMeal();
+        public MealEnumeration Pickless = new PicklessMeal();
 
         protected MealEnumeration(byte value, string name) 
             : base(value, name)
         {
         }
 
+        private class SaladMeal : MealEnumeration
+        {
+            public SaladMeal()
+                : base(0, "Салат")
+            {
+
+            }
+        }
+
+        private class SoupMeal : MealEnumeration
+        {
+            public SoupMeal()
+                : base(1, "Суп")
+            {
+
+            }
+        }
+
+        private class MeatMeal : MealEnumeration
+        {
+            public MeatMeal()
+                : base(2, "Мясные блюда")
+            {
+
+            }
+        }
+
         private class BreakfastMeal : MealEnumeration
         {
-            public BreakfastMeal() 
-                : base(0, "Завтрак")
+            public BreakfastMeal()
+                : base(3, "Завтрак/перекус")
             {
+
             }
         }
 
-        private class DinnerMeal : MealEnumeration
+        private class SideDishesMeal : MealEnumeration
         {
-            public DinnerMeal() 
-                : base(1, "Обед")
+            public SideDishesMeal()
+                : base(4, "Гарниры")
             {
+
             }
         }
 
-        private class SnackMeal : MealEnumeration
+        private class BakeryMeal : MealEnumeration
         {
-            public SnackMeal()
-                : base(2, "Полдник")
+            public BakeryMeal()
+                : base(5, "Выпечка")
             {
 
             }
         }
-
-        private class EveningMeal : MealEnumeration
+        
+        private class DessertMeal : MealEnumeration
         {
-            public EveningMeal()
-                : base(3, "Ужин")
+            public DessertMeal()
+                : base(6, "Десерты")
             {
 
             }
-
         }
+
+        private class PicklessMeal : MealEnumeration
+        {
+            public PicklessMeal()
+                : base(7, "Соления")
+            {
+
+            }
+        }
+
     }
 }
