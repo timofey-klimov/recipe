@@ -10,5 +10,8 @@ namespace Recipes.Domain.Repositories
         Task<RecipeCard?> GetByIdWithStagesAsync(int id, CancellationToken token = default);
         Task<IReadOnlyCollection<RecipeCard>> GetRecipesForPageAsync(
             int page, int itemsOnPage, CancellationToken token = default);
+
+        Task<IReadOnlyCollection<RecipeCard>> GetRecipesForQueryAsync(
+            string query, CancellationToken token = default);
     }
 }

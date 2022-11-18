@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.RecipeCards.Commands.AddToFavourite;
 using Recipes.Application.UseCases.RecipeCards.Commands.CreateRecipeCard;
 using Recipes.Application.UseCases.RecipeCards.Commands.RemoveFromFavourites;
+using Recipes.Application.UseCases.RecipeCards.Queries.GetBySearchString;
 using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCardDetails;
 using Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards;
 using Recipes.Contracts.Recipes;
@@ -87,6 +88,21 @@ namespace Recipes.Web.Controllers
             await Mediator.Send(new RemoveFromFavouritesCommand(recipeId), token);
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Прлучение рецептов для поиска
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("search")]
+        public async Task<Response<IReadOnlyCollection<RecipeCardDto>>> GetBySearchString(string search, CancellationToken token)
+        {
+            if (string.IsNullOrEmpty(search))
+                return OkCollection(new List<RecipeCardDto>());
+
+            return OkCollection(await Mediator.Send(new GetBySearchStringQuery(search), token));
         }
     }
 }

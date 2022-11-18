@@ -49,5 +49,16 @@ namespace Recipes.Persistance.Repositories
                 .OrderBy(x => x.CreateDate)
                 .ToListAsync();
         }
+
+        public async Task<IReadOnlyCollection<RecipeCard>> GetRecipesForQueryAsync(string query, CancellationToken token = default)
+        {
+            return await Entities()
+                .Include(x => x.Ingredients)
+                .Where(recipe => 
+                    recipe.Ingredients.Any(x => x.Name.Contains(query)) || recipe.Title.Contains(query))
+                .Take(10)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+        }
     }
 }

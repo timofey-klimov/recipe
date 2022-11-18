@@ -44,6 +44,7 @@ namespace Recipes.Persistance.Configurations
             });
 
             builder.Ignore(x => x.Events);
+            builder.HasIndex(x => x.Title);
 
             builder.Property(x => x.MealType)
                 .HasConversion(

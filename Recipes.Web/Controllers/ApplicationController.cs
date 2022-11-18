@@ -27,6 +27,13 @@ namespace Recipes.Web.Controllers
             return Response<T>.Create(data, true);
         }
 
+        protected Response<IReadOnlyCollection<T>> OkCollection<T>(IEnumerable<T> data)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status200OK;
+            HttpContext.Response.ContentType = "application/json";
+            return Response<T>.CreateFromArray(data.ToList(), true);
+        }
+
         protected T Pagination<T>(T data)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status200OK;

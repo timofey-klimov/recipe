@@ -12,6 +12,9 @@
         }
 
         public static Response<T> Create(T data, bool success) => new Response<T>(data, success);
+
+        public static Response<IReadOnlyCollection<T>> CreateFromArray(IReadOnlyCollection<T> data, bool success) =>
+            new Response<IReadOnlyCollection<T>>(data, success);
     }
 
 }

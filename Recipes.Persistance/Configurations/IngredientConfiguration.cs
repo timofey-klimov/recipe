@@ -16,6 +16,8 @@ namespace Recipes.Persistance.Configurations
             builder.Property(x => x.Quantity)
                 .IsRequired();
 
+            builder.HasIndex(x => x.Name);
+
             builder.ToTable("Ingredients");
         }
     }
