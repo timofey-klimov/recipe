@@ -7,7 +7,7 @@ namespace Recipes.Infrustructure.Pagination
     {
         public Task<int> ItemsCount()
         {
-            return Task.FromResult(30);
+            return Task.FromResult(4);
         }
     }
 }

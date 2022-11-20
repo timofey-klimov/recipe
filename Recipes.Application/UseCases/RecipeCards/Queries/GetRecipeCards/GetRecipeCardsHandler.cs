@@ -34,7 +34,8 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards
                     ImageSource: card.ImageSource))
                 .ToList();
 
-            return recipeDtos.ToPagination(count, itemsOnPage);
+
+            return recipeDtos.ToPagination(GetTotalPages(count, itemsOnPage));
         }
     }
 }

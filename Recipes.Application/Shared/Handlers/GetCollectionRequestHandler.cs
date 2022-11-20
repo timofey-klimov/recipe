@@ -21,6 +21,11 @@ namespace Recipes.Application.Shared.Handlers
             return await GetColllectionAsync(request, cancellationToken);
         }
 
+        protected int GetTotalPages(int itemsCount, int itemsPerPage)
+        {
+            var count = (double)itemsCount / itemsPerPage;
+            return (int)Math.Ceiling(count);
+        }
         public abstract Task<PaginationResponse<TResponse>> GetColllectionAsync(TRequest request, CancellationToken cancellationToken);
     }
 }

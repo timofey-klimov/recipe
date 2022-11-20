@@ -5,21 +5,17 @@
         public bool Success => true;
         public IReadOnlyCollection<T> Data { get; }
 
-        public int Count { get; }
-
-        public int ItemsPerPage { get; }
-
-        public PaginationResponse(IReadOnlyCollection<T> data, int count, int itemsPerPage)
+        public int TotalPages { get; }
+        public PaginationResponse(IReadOnlyCollection<T> data, int totalPages)
         {
             Data = data;
-            Count = count;
-            ItemsPerPage = itemsPerPage;
+            TotalPages = totalPages;
         }
 
-        public static PaginationResponse<T> FromList(List<T> data, int count, int itemsPerPage) =>
-            new PaginationResponse<T>(data, count, itemsPerPage);
+        public static PaginationResponse<T> FromList(List<T> data, int totalPages) =>
+            new PaginationResponse<T>(data, totalPages);
 
-        public static PaginationResponse<T> FromEnumerable(IEnumerable<T> data, int count, int itemsPerPage) =>
-            new PaginationResponse<T>(data.ToList(), count, itemsPerPage);
+        public static PaginationResponse<T> FromEnumerable(IEnumerable<T> data, int totalPages) =>
+            new PaginationResponse<T>(data.ToList(), totalPages);
     }
 }
