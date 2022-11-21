@@ -11,11 +11,14 @@ namespace Recipes.Persistance.DependencyInjection
 {
     public static class Register
     {
-        public static IServiceCollection UsePersistance(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection UsePersistance(this IServiceCollection services, IConfiguration configuration, bool isProduction)
         {
+            var connectionString = isProduction
+                ? configuration.GetConnectionString("Prod")
+                : configuration.GetConnectionString("Dev"); 
             services.AddDbContext<ApplicationDbContext>(x =>
             {
-                x.UseSqlServer(configuration.GetConnectionString("Default"));
+                x.UseSqlServer(connectionString);
             });
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  backend:
+    image: ${DOCKER_REGISTRY-}recipesweb
+    container_name: recipes
+    build:
+      context: .
+      dockerfile: Recipes.Web/Dockerfile
+  database:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    container_name: sql_server
+  client:
+    image: client
+    container_name: recipesClient
+    build:
+      context: D:\Projects\RecipesFront\my-app
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+  proxy:
+    image: nginx:mainline
+    container_name: proxy
