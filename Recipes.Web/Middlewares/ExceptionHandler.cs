@@ -7,10 +7,11 @@ namespace Recipes.Web.Middlewares
     public class ExceptionHandler
     {
         private readonly RequestDelegate _requestDelegate;
-
-        public ExceptionHandler(RequestDelegate requestDelegate)
+        private readonly ILogger<ExceptionHandler> _logger;
+        public ExceptionHandler(RequestDelegate requestDelegate, ILogger<ExceptionHandler> logger)
         {
             _requestDelegate = requestDelegate;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -30,6 +31,7 @@ namespace Recipes.Web.Middlewares
             catch (Exception ex)
             {
                 await HandleInternalError(ex, context);
+                _logger.LogError(ex.Message);
             }
         }
 

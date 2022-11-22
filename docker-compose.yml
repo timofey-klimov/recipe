@@ -16,8 +16,6 @@ services:
     build:
       context: D:\Projects\RecipesFront\my-app
       dockerfile: Dockerfile
-      args:
-        - NODE_ENV=production
   proxy:
     image: nginx:mainline
     container_name: proxy

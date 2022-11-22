@@ -22,7 +22,7 @@ var app = builder.Build();
     app.UseMiddleware<ExceptionHandler>();
     app.UseCors(opts =>
     {
-        opts.AllowAnyOrigin()
+        opts.WithOrigins("https://nika-cook.ru")
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -34,7 +34,8 @@ var app = builder.Build();
             x.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         });
     }
-
+    app.UseHttpsRedirection();
+    app.UseHsts();
     app.UseAuthentication();
     app.UseAuthorization();
     app.UseStaticFiles();

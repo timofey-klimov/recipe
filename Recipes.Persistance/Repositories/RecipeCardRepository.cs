@@ -46,7 +46,7 @@ namespace Recipes.Persistance.Repositories
             return await Entities()
                 .Skip(skip)
                 .Take(itemsOnPage)
-                .OrderBy(x => x.CreateDate)
+                .OrderByDescending(x => x.CreateDate)
                 .ToListAsync();
         }
 
