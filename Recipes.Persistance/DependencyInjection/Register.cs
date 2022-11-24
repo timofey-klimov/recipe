@@ -13,12 +13,9 @@ namespace Recipes.Persistance.DependencyInjection
     {
         public static IServiceCollection UsePersistance(this IServiceCollection services, IConfiguration configuration, bool isProduction)
         {
-            var connectionString = isProduction
-                ? configuration.GetConnectionString("Prod")
-                : configuration.GetConnectionString("Dev"); 
             services.AddDbContext<ApplicationDbContext>(x =>
             {
-                x.UseSqlServer(connectionString);
+                x.UseSqlServer(configuration.GetConnectionString("Default"));
             });
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
