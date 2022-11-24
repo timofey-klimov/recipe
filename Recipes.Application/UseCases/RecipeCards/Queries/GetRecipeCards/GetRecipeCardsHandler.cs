@@ -3,6 +3,7 @@ using Recipes.Application.Shared.Extensions;
 using Recipes.Application.Shared.Handlers;
 using Recipes.Contracts.Recipes;
 using Recipes.Contracts.Web;
+using Recipes.Domain.Core.Specifications;
 using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
 
@@ -22,9 +23,10 @@ namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards
         public override async Task<PaginationResponse<RecipeCardDto>> GetColllectionAsync(
                 GetRecipeCardsQuery request, CancellationToken cancellationToken)
         {
+            var spec = new RecipeCardByNameSpecification(request.Search);
             var itemsOnPage = await PaginationProvider.ItemsCount();
-            var count = await _recipeCardRepository.CountAsync(cancellationToken);
-            var cards = await _recipeCardRepository.GetRecipesForPageAsync(request.Page, itemsOnPage, cancellationToken);
+            var count = await _recipeCardRepository.CountAsync(spec, token: cancellationToken);
+            var cards = await _recipeCardRepository.GetRecipesForPageAsync(request.Page, itemsOnPage, request.Search, cancellationToken);
 
             var recipeDtos = cards.Select(card => new RecipeCardDto(
                     Id: card.Id,

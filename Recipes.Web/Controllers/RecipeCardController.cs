@@ -42,11 +42,12 @@ namespace Recipes.Web.Controllers
         /// </summary>
         /// <param name="token"></param>
         /// <param name="pageNumber"></param>
+        /// <param name="search"></param>
         /// <returns></returns>
         [HttpGet("pages")]
-        public async Task<PaginationResponse<RecipeCardDto>> GetRecipesPage(CancellationToken token, int pageNumber = 1)
+        public async Task<PaginationResponse<RecipeCardDto>> GetRecipesPage(string search, CancellationToken token, int pageNumber = 1)
         {
-            return Pagination(await Mediator.Send(new GetRecipeCardsQuery(pageNumber), token));
+            return Pagination(await Mediator.Send(new GetRecipeCardsQuery(pageNumber, search), token));
         }
 
         /// <summary>

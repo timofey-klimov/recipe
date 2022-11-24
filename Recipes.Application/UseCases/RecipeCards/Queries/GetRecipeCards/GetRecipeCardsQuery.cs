@@ -4,5 +4,5 @@ using Recipes.Contracts.Web;
 
 namespace Recipes.Application.UseCases.RecipeCards.Queries.GetRecipeCards
 {
-    public record GetRecipeCardsQuery(int Page) : IRequest<PaginationResponse<RecipeCardDto>>;
+    public record GetRecipeCardsQuery(int Page, string Search) : IRequest<PaginationResponse<RecipeCardDto>>;
 }

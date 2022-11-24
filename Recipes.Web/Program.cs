@@ -22,7 +22,7 @@ var app = builder.Build();
     app.UseMiddleware<ExceptionHandler>();
     app.UseCors(opts =>
     {
-        opts.WithOrigins("https://nika-cook.ru")
+        opts.WithOrigins(builder.Configuration.GetValue<string>("Host"))
             .AllowAnyMethod()
             .AllowAnyHeader();
     });

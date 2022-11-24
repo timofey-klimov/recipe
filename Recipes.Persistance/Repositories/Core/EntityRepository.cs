@@ -25,9 +25,12 @@ namespace Recipes.Persistance.Repositories.Core
             Entities().Update(entity);
         }
 
-        public async Task<int> CountAsync(CancellationToken token = default)
+        public async Task<int> CountAsync(Specification<T>? spec = null, CancellationToken token = default)
         {
-            return await Entities().CountAsync(token);
+            if (spec == null)
+                return await Entities().CountAsync(token);
+            else
+                return await Entities().Where(spec.Criteria()).CountAsync();
         }
 
         public void AddRange(IEnumerable<T> entities)

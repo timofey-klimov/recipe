@@ -7,7 +7,7 @@
 
         void Update(T entity);
 
-        Task<int> CountAsync(CancellationToken token = default);
+        Task<int> CountAsync(Specification<T>? spec = null, CancellationToken token = default);
 
         void AddRange(IEnumerable<T> entities);
     }

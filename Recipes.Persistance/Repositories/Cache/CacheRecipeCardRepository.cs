@@ -57,9 +57,9 @@ namespace Recipes.Persistance.Repositories.Cache
             return _recipeCardRepository.GetByIdWithStagesAsync(id, token);
         }
 
-        public Task<IReadOnlyCollection<RecipeCard>> GetRecipesForPageAsync(int page, int itemsOnPage, CancellationToken token = default)
+        public Task<IReadOnlyCollection<RecipeCard>> GetRecipesForPageAsync(int page, int itemsOnPage, string? search, CancellationToken token = default)
         {
-            return _recipeCardRepository.GetRecipesForPageAsync(page, itemsOnPage, token);
+            return _recipeCardRepository.GetRecipesForPageAsync(page, itemsOnPage, search, token);
         }
 
         public Task<IReadOnlyCollection<RecipeCard>> GetRecipesForQueryAsync(string query, CancellationToken token = default)

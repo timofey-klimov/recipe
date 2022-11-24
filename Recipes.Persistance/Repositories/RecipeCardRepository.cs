@@ -39,15 +39,27 @@ namespace Recipes.Persistance.Repositories
         }
 
         public async Task<IReadOnlyCollection<RecipeCard>> GetRecipesForPageAsync(
-            int page, int itemsOnPage, CancellationToken token = default)
+            int page, int itemsOnPage, string? search = default, CancellationToken token = default)
         {
             var skip = SkipItemsForPagination(page, itemsOnPage);
 
-            return await Entities()
-                .Skip(skip)
-                .Take(itemsOnPage)
-                .OrderByDescending(x => x.CreateDate)
-                .ToListAsync();
+            if (!string.IsNullOrEmpty(search))
+            {
+                return await Entities()
+                    .Where(x => x.Title.Contains(search))
+                    .Skip(skip)
+                    .Take(itemsOnPage)
+                    .OrderByDescending(x => x.CreateDate)
+                    .ToListAsync();
+            } 
+            else
+            {
+                return await Entities()
+                    .Skip(skip)
+                    .Take(itemsOnPage)
+                    .OrderByDescending(x => x.CreateDate)
+                    .ToListAsync();
+            }
         }
 
         public async Task<IReadOnlyCollection<RecipeCard>> GetRecipesForQueryAsync(string query, CancellationToken token = default)
