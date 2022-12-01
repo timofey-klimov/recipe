@@ -3,6 +3,7 @@ using Recipes.Domain.Core.Errors;
 using Recipes.Domain.Core.Services;
 using Recipes.Domain.Repositories;
 using Recipes.Domain.Shared;
+using Recipes.Domain.ValueObjects;
 
 namespace Recipes.Domain.Entities
 {
@@ -16,10 +17,10 @@ namespace Recipes.Domain.Entities
 
         private User() { }
 
-        protected User(string login, string email, string password, string salt)
+        protected User(string login, Email email, string password, string salt)
         {
             Login = login;
-            Email = email;
+            Email = email.Value;
             Password = password;
             _salt = salt;
             _favouriteRecipes = new List<FavouriteRecipe>();
@@ -32,28 +33,29 @@ namespace Recipes.Domain.Entities
 
         public DateTime CreateDate { get; private set; }
 
-        public static async Task<Result<User>> CreateAsync(string login, 
-            string email, 
-            string password, 
+        public static async Task<Result<User>> CreateAsync(
+            string login, 
+            Email email, 
+            Password password, 
             IUserRepository userRepository, 
             IPasswordHasher passwordHasher,
             ISaltGenerator saltGenerator)
         {
-            if (await userRepository.IsUserEmailExistsAsync(email))
+            if (await userRepository.IsUserEmailExistsAsync(email.Value))
                 return UserErrors.EmailAlreadyExists();
 
             if (await userRepository.IsUserLoginExistsAsync(login))
                 return UserErrors.LoginAlreadyExists();
 
-            var salt = saltGenerator.Generate(email, login);
-            var hashedPassword = passwordHasher.Hash(password, salt);
+            var salt = saltGenerator.Generate(email.Value, login);
+            var hashedPassword = passwordHasher.Hash(password.Value, salt);
 
             return new User(login, email, hashedPassword, salt);
         }
 
-        public Result CheckUserPassword(string passwordForCheck, IPasswordHasher passwordHasher)
+        public Result CheckUserPassword(Password passwordForCheck, IPasswordHasher passwordHasher)
         {
-            var hashedPassword = passwordHasher.Hash(passwordForCheck, _salt);
+            var hashedPassword = passwordHasher.Hash(passwordForCheck.Value, _salt);
 
             if (hashedPassword != Password)
                 return UserErrors.LoginOrPasswordIsInvalid();

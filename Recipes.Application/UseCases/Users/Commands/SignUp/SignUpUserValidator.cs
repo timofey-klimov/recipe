@@ -33,7 +33,7 @@ namespace Recipes.Application.UseCases.Users.Commands.CreateUser
 
             RuleFor(x => x.User.Email)
                 .EmailAddress(FluentValidation.Validators.EmailValidationMode.AspNetCoreCompatible)
-                .WithMessage("Wrong email format")
+                .WithMessage("Invalid email format")
                 .WithErrorCode("email");
         }
     }

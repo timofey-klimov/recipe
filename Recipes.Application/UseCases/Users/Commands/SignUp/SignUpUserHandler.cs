@@ -6,6 +6,7 @@ using Recipes.Domain.Core.Services;
 using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
 using Recipes.Domain.Shared;
+using Recipes.Domain.ValueObjects;
 
 namespace Recipes.Application.UseCases.Users.Commands.CreateUser
 {
@@ -36,7 +37,16 @@ namespace Recipes.Application.UseCases.Users.Commands.CreateUser
             _ = request ?? throw new ArgumentNullException(nameof(request));
             var (login, email, password) = request.User;
 
-            var createUserResult = await User.CreateAsync(login, email, password, _userRepository, _passwordHasher, _saltGenerator);
+            var emailResult = Email.Create(email);
+            if (emailResult.HasError)
+                Guard.ThrowBuisnessError(emailResult.Error);
+
+            var passwordResult = Password.Create(password);
+            if (passwordResult.HasError)
+                Guard.ThrowBuisnessError(passwordResult.Error);
+
+            var createUserResult = 
+                await User.CreateAsync(login, emailResult.Entity, passwordResult.Entity, _userRepository, _passwordHasher, _saltGenerator);
 
             if (createUserResult.HasError)
                 Guard.ThrowBuisnessError(createUserResult.Error);

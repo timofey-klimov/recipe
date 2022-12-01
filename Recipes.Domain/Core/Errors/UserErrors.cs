@@ -15,5 +15,11 @@ namespace Recipes.Domain.Core.Errors
 
         public static Error RecipeAlreadyAddedToFavourites() =>
             new Error("User.RecipeAlreadyFavourite", "Рецепт уже добавлен в избранное");
+
+        public static Error EmailInvalidFormat() =>
+            new Error("User.EmailInvalidFormat", "Неверный формат email");
+
+        public static Error PasswordMinLength(int length) =>
+            new Error("User.PasswordMinLength", $"Слишком короче {length} символов");
     }
 }

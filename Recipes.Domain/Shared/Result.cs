@@ -22,7 +22,6 @@ namespace Recipes.Domain.Shared
     }
 
     public class Result<T>
-        where T : Entity
     {
         private T _entity;
         private bool _isSuccess;

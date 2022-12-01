@@ -1,15 +1,10 @@
 ﻿using MediatR;
 using Recipes.Application.Core.Auth;
-using Recipes.Contracts;
 using Recipes.Domain.Core.Services;
 using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
 using Recipes.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Recipes.Domain.ValueObjects;
 
 namespace Recipes.Application.UseCases.Users.Commands.SignIn
 {
@@ -37,7 +32,11 @@ namespace Recipes.Application.UseCases.Users.Commands.SignIn
             if (user is null)
                 Guard.NotFound(User.EntityName);
 
-            var checkUserPasswordResult = user!.CheckUserPassword(request.User.Password, _passwordHasher);
+            var passwordResult = Password.Create(request.User.Password);
+            if (passwordResult.HasError)
+                Guard.ThrowBuisnessError(passwordResult.Error);
+
+            var checkUserPasswordResult = user!.CheckUserPassword(passwordResult.Entity, _passwordHasher);
 
             if (checkUserPasswordResult.HasError)
                 Guard.ThrowBuisnessError(checkUserPasswordResult.Error);

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.UseCases.Users.Commands.CreateUser;
 using Recipes.Application.UseCases.Users.Commands.SignIn;
+using Recipes.Application.UseCases.Users.Queries.CheckUserExists;
 using Recipes.Contracts;
 using Recipes.Contracts.Auth;
 using Recipes.Contracts.Web;
@@ -39,6 +40,19 @@ namespace Recipes.Web.Controllers
         public async Task<Response<string>> FindUser([FromBody] SignInUserDto userDto, CancellationToken token)
         {
             return Ok(await Mediator.Send(new SignInUserCommand(userDto), token));
+        }
+
+        /// <summary>
+        /// Проверка на наличие пользователя по email/логин
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+
+        [HttpGet("check/{userInfo}")]
+        public async Task<Response<bool>> CheckUserExists(string userInfo, CancellationToken token)
+        {
+            return Ok(await Mediator.Send(new CheckUserExistsQuery(userInfo), token));
         }
     }
 }

@@ -34,7 +34,7 @@
             return first.Equals(second);
         }
 
-        public static bool operator !=(Entity first, Entity second)
+        public static bool operator !=(Entity? first, Entity? second)
         {
             return !(first == second);
         }
