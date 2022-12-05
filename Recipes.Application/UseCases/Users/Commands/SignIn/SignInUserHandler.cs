@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Recipes.Application.Core.Auth;
+using Recipes.Domain.Core.Errors;
 using Recipes.Domain.Core.Services;
 using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
@@ -27,10 +28,10 @@ namespace Recipes.Application.UseCases.Users.Commands.SignIn
         public async Task<string> Handle(SignInUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByEmailOrLoginAsync(
-                request.User.Login, request.User.Email, cancellationToken);
+                request.User.Credential, request.User.Credential, cancellationToken);
 
             if (user is null)
-                Guard.NotFound(User.EntityName);
+                Guard.ThrowBuisnessError(UserErrors.LoginOrPasswordIsInvalid());
 
             var passwordResult = Password.Create(request.User.Password);
             if (passwordResult.HasError)
