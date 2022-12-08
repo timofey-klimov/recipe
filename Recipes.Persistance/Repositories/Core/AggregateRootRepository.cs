@@ -18,12 +18,25 @@ namespace Recipes.Persistance.Repositories.Core
             return await DbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, token);
         }
 
-        public IQueryable<T> GetAll() => Entities();
+        public async Task<IReadOnlyCollection<T>> GetAllAsync() => await Entities().ToListAsync();
 
-        public IQueryable<T> GetAllWithIncludes(params string[] includes)
+        public async Task<IReadOnlyCollection<T>> GetWithIncludesAsync(Specification<T>? spec = null, params string[] includes)
         {
             IQueryable<T> query = Entities();
-            return includes.Aggregate(query, (current, s) => current.Include(s));
+            var queryWithIncludes = includes
+                    .Aggregate(query, (current, s) => current.Include(s));
+
+            if (spec is null)
+            {
+                return await queryWithIncludes
+                    .ToListAsync();
+            }
+            else
+            {
+                return await queryWithIncludes
+                    .Where(spec.Criteria())
+                    .ToListAsync();
+            }
         }
     }
 }
