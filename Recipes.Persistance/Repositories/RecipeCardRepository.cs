@@ -47,6 +47,7 @@ namespace Recipes.Persistance.Repositories
             {
                 return await Entities()
                     .Where(x => x.Title.Contains(search))
+                    .Where(x => x.IsAccepted == true)
                     .Skip(skip)
                     .Take(itemsOnPage)
                     .OrderByDescending(x => x.CreateDate)
@@ -55,6 +56,7 @@ namespace Recipes.Persistance.Repositories
             else
             {
                 return await Entities()
+                    .Where(x => x.IsAccepted == true)
                     .Skip(skip)
                     .Take(itemsOnPage)
                     .OrderByDescending(x => x.CreateDate)
@@ -68,6 +70,7 @@ namespace Recipes.Persistance.Repositories
                 .Include(x => x.Ingredients)
                 .Where(recipe => 
                     recipe.Ingredients.Any(x => x.Name.Contains(query)) || recipe.Title.Contains(query))
+                .Where(x => x.IsAccepted == true)
                 .Take(10)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
