@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Recipes.Domain.Repositories
 {
-    public interface IFavouriteRecipeRepository : IEntityRepository<FavouriteRecipe>
+    public interface IFavouriteRecipeRepository : IEntityRepository<FavouriteRecipe, int>
     {
 
     }

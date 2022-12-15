@@ -3,7 +3,7 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Domain.Repositories
 {
-    public interface IRecipeCardRepository : IAggregateRootRepository<RecipeCard>
+    public interface IRecipeCardRepository : IAggregateRootRepository<RecipeCard, int>
     {
         Task<RecipeCard?> GetByIdWithDetailsAsync(int id, CancellationToken token = default);
         Task<RecipeCard?> GetByIdWithIngredientsAsync(int id, CancellationToken token = default);

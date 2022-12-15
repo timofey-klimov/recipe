@@ -2,7 +2,7 @@
 
 namespace Recipes.Domain.Entities
 {
-    public class CookingStage : Entity
+    public class CookingStage : Entity<int>
     {
         public static string EntityName => nameof(CookingStage);
 

@@ -70,6 +70,15 @@ namespace Recipes.Web.Middlewares
                     };
                     await context.Response.WriteAsJsonAsync(buisnessErrorresponse);
                     break;
+                case ForbiddenException forbidden:
+                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    var forbiddenResponse = new
+                    {
+                        Title = "Access forbidden"
+                    };
+
+                    await context.Response.WriteAsJsonAsync(forbiddenResponse);
+                    break;
             }
         }
         private async Task HandleValidationException(AppValidationException validationException, HttpContext context)

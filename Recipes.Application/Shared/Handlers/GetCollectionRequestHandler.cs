@@ -8,7 +8,6 @@ namespace Recipes.Application.Shared.Handlers
     public abstract class GetCollectionRequestHandler<TRequest, TResponse, TEntity> 
         : IRequestHandler<TRequest, PaginationResponse<TResponse>>
         where TRequest : IRequest<PaginationResponse<TResponse>>
-        where TEntity : Entity
     {
         protected IPaginationProvider<TEntity> PaginationProvider;
         public GetCollectionRequestHandler(IPaginationProvider<TEntity> paginationProvider)

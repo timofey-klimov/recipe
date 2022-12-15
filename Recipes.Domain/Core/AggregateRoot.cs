@@ -2,19 +2,25 @@
 
 namespace Recipes.Domain.Core
 {
-    public abstract class AggregateRoot : Entity
+    public abstract class AggregateRoot<T> : Entity<T>, IAggregateRoot
+        where T : IEquatable<T>
     {
-        private List<IDomainEvent> _events;
-        public IReadOnlyCollection<IDomainEvent> Events => _events;
-
-        public AggregateRoot()
+        protected AggregateRoot() { }
+        protected AggregateRoot(T id)
+            : base(id)
         {
-            _events = new List<IDomainEvent>();
         }
+
+        private List<IDomainEvent> _events = new List<IDomainEvent>();
+        public IReadOnlyCollection<IDomainEvent> Events => _events.ToList();
+
 
         protected void RaiseEvent(IDomainEvent @event)
         {
             _events.Add(@event);
         }
+
+        public void ClearEvents() => _events.Clear();
+        
     }
 }

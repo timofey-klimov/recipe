@@ -1,15 +1,22 @@
 ﻿namespace Recipes.Domain.Core
 {
-    public abstract class Entity
+    public abstract class Entity<T>
+        where T : IEquatable<T>
     {
+        protected Entity() { }
 
-        public int Id { get; private set; }
+        protected Entity(T id)
+        {
+            Id = id;
+        }
+
+        public T Id { get; private set; }
 
         public override bool Equals(object? obj)
         {
-            if (obj is Entity e && e.GetType() == GetType())
+            if (obj is Entity<T> e && e.GetType() == GetType())
             {
-                return Id == e.Id;
+                return Id.Equals(e.Id);
             }
 
             return false;
@@ -20,7 +27,7 @@
             return Id.GetHashCode();
         }
 
-        public static bool operator ==(Entity? first, Entity? second)
+        public static bool operator ==(Entity<T>? first, Entity<T>? second)
         {
             if (first is null && second is null)
                 return true;
@@ -34,7 +41,7 @@
             return first.Equals(second);
         }
 
-        public static bool operator !=(Entity? first, Entity? second)
+        public static bool operator !=(Entity<T>? first, Entity<T>? second)
         {
             return !(first == second);
         }

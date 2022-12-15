@@ -21,5 +21,8 @@ namespace Recipes.Domain.Core.Errors
 
         public static Error IncorrectMealType() =>
             new Error("RecipeCard.IncorrectMealType", "Тип рецепта не верный");
+
+        public static Error InvalidRequestStatus() =>
+            new Error("RecipeCard.InvalidRequestStatus", "Не валидный статус запроса на подтверждение");
     }
 }

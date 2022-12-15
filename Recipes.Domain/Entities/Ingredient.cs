@@ -3,7 +3,7 @@ using Recipes.Domain.Shared;
 
 namespace Recipes.Domain.Entities
 {
-    public class Ingredient : AggregateRoot
+    public class Ingredient : AggregateRoot<int>
     {
         public string Name { get; private set; }
 

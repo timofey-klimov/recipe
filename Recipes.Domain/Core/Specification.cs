@@ -3,7 +3,6 @@
 namespace Recipes.Domain.Core
 {
     public abstract class Specification<TEntity>
-        where TEntity : Entity
     {
         public abstract Expression<Func<TEntity, bool>> Criteria();
 

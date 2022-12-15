@@ -6,7 +6,7 @@ using Recipes.Persistance.Repositories.Core;
 
 namespace Recipes.Persistance.Repositories.Cache
 {
-    public class CacheRecipeCardRepository : AggregateRootRepository<RecipeCard>, IRecipeCardRepository
+    public class CacheRecipeCardRepository : AggregateRootRepository<RecipeCard, int>, IRecipeCardRepository
     {
         private readonly IRecipeCardRepository _recipeCardRepository;
         private readonly ICachingProvider _cachingProvider;

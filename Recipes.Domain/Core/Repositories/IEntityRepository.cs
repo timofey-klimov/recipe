@@ -1,14 +1,15 @@
 ﻿namespace Recipes.Domain.Core.Repositories
 {
-    public interface IEntityRepository<T>
-        where T: Entity
+    public interface IEntityRepository<TEntity, TId>
+        where TEntity: Entity<TId>
+        where TId: IEquatable<TId>
     {
-        void Add(T entity);
+        void Add(TEntity entity);
 
-        void Update(T entity);
+        void Update(TEntity entity);
 
-        Task<int> CountAsync(Specification<T>? spec = null, CancellationToken token = default);
+        Task<int> CountAsync(Specification<TEntity>? spec = null, CancellationToken token = default);
 
-        void AddRange(IEnumerable<T> entities);
+        void AddRange(IEnumerable<TEntity> entities);
     }
 }

@@ -2,8 +2,7 @@
 
 namespace Recipes.Application.Core.Pagination
 {
-    public interface IPaginationProvider<T>
-        where T : Entity
+    public interface IPaginationProvider<TEntity>
     {
         Task<int> ItemsCount();
     }

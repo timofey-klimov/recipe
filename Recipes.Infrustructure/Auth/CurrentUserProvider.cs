@@ -21,7 +21,7 @@ namespace Recipes.Infrustructure.Auth
 
         private int? GetUserId()
         {
-            var contextUser = _contextAccessor.HttpContext.User;
+            var contextUser = _contextAccessor?.HttpContext?.User;
             var idClaim = contextUser?.Claims?.FirstOrDefault(x => x.Type == "id");
 
             return idClaim == null

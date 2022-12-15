@@ -2,10 +2,11 @@
 using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
 using Recipes.Persistance.Repositories.Core;
+using System.Collections.Immutable;
 
 namespace Recipes.Persistance.Repositories
 {
-    public class UserRepository : AggregateRootRepository<User>, IUserRepository
+    public class UserRepository : AggregateRootRepository<User, int>, IUserRepository
     {
         public UserRepository(ApplicationDbContext applicationDbContext) 
             : base(applicationDbContext)
@@ -19,11 +20,25 @@ namespace Recipes.Persistance.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id, token);
         }
 
+        public async Task<HashSet<string>> GetPermissionsAsync(int id, CancellationToken token = default)
+        {
+            var user = await Entities()
+                .Include(x => x.UserPermissions)
+                    .ThenInclude(x => x.Permission)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var permissions = user.UserPermissions.Select(x => x.Permission).ToList();
+
+            return permissions.Select(x => x.Name).ToHashSet();
+        }
+
+
         public async Task<User?> GetUserByEmailOrLoginAsync(string? login, string? email, CancellationToken token = default)
         {
             return await Entities()
                 .Where(x => (x.Login == login || x.Email == email)).FirstOrDefaultAsync(token);
         }
+
 
         public async Task<bool> IsUserEmailExistsAsync(string email, CancellationToken token = default)
         {

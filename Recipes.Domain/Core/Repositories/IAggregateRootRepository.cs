@@ -1,8 +1,9 @@
 ﻿namespace Recipes.Domain.Core.Repositories
 {
-    public interface IAggregateRootRepository<T> : IEntityRepository<T>
-        where T : AggregateRoot
+    public interface IAggregateRootRepository<TEntity, TId> : IEntityRepository<TEntity,TId>
+        where TEntity : AggregateRoot<TId>
+        where TId : IEquatable<TId>
     {
-        Task<T?> GetByIdAsync(int id, CancellationToken token = default);
+        Task<TEntity?> GetByIdAsync(TId id, CancellationToken token = default);
     }
 }

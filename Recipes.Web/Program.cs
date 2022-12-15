@@ -10,8 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
         .UseApplication(builder.Configuration)
-        .UsePersistance(builder.Configuration, 
-            builder.Environment.IsProduction())
+        .UsePersistance(builder.Configuration)
         .UseInfrustructure(builder.Configuration)
         .UseWebApp(builder.Configuration);
 }

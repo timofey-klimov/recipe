@@ -2,7 +2,7 @@
 
 namespace Recipes.Domain.Entities
 {
-    public class FavouriteRecipe : Entity
+    public class FavouriteRecipe : Entity<int>
     {
         public static string EntityName => nameof(FavouriteRecipe);
         public int RecipeId { get; private set; }

@@ -7,14 +7,24 @@ using Recipes.Domain.ValueObjects;
 
 namespace Recipes.Domain.Entities
 {
-    public class User : AggregateRoot
+    public class User : AggregateRoot<int>
     {
         private string _salt;
         public static string EntityName => nameof(User);
 
         private List<FavouriteRecipe> _favouriteRecipes;
         public IReadOnlyCollection<FavouriteRecipe> FavouriteRecipes => _favouriteRecipes.AsReadOnly();
+        private List<UserPermission> _userPermissions;
 
+        public IReadOnlyCollection<UserPermission> UserPermissions => _userPermissions.AsReadOnly();
+
+        public string Login { get; private set; }
+
+        public string Email { get; private set; }
+
+        public string Password { get; private set; }
+
+        public DateTime CreateDate { get; private set; }
         private User() { }
 
         protected User(string login, Email email, string password, string salt)
@@ -24,14 +34,8 @@ namespace Recipes.Domain.Entities
             Password = password;
             _salt = salt;
             _favouriteRecipes = new List<FavouriteRecipe>();
+            _userPermissions = new List<UserPermission>();
         }
-        public string Login { get; private set; }
-
-        public string Email { get; private set; }
-
-        public string Password { get; private set; }
-
-        public DateTime CreateDate { get; private set; }
 
         public static async Task<Result<User>> CreateAsync(
             string login, 

@@ -22,6 +22,50 @@ namespace Recipes.Persistance.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Recipes.Domain.Entities.ConfirmationRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("AcceptedBy")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("CheckType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RejectedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RejectedReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcceptedBy");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("RejectedBy");
+
+                    b.ToTable("ConfirmationRequests", (string)null);
+                });
+
             modelBuilder.Entity("Recipes.Domain.Entities.CookingStage", b =>
                 {
                     b.Property<int>("Id")
@@ -104,6 +148,30 @@ namespace Recipes.Persistance.Migrations
                     b.ToTable("Ingredients", (string)null);
                 });
 
+            modelBuilder.Entity("Recipes.Domain.Entities.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ApproveCreateRecipesRequest"
+                        });
+                });
+
             modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
                 {
                     b.Property<int>("Id")
@@ -123,6 +191,9 @@ namespace Recipes.Persistance.Migrations
                     b.Property<string>("ImageSource")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
 
                     b.Property<byte>("MealType")
                         .HasColumnType("tinyint");
@@ -174,6 +245,85 @@ namespace Recipes.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.UserPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("IssuedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPermissions", (string)null);
+                });
+
+            modelBuilder.Entity("Recipes.Persistance.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OccuredOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ProccededOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OutboxMessages", (string)null);
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.ConfirmationRequest", b =>
+                {
+                    b.HasOne("Recipes.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("AcceptedBy");
+
+                    b.HasOne("Recipes.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Recipes.Domain.Entities.RecipeCard", null)
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("RejectedBy");
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.CookingStage", b =>
@@ -232,6 +382,21 @@ namespace Recipes.Persistance.Migrations
                     b.Navigation("Hashtags");
                 });
 
+            modelBuilder.Entity("Recipes.Domain.Entities.UserPermission", b =>
+                {
+                    b.HasOne("Recipes.Domain.Entities.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Domain.Entities.User", null)
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Permission");
+                });
+
             modelBuilder.Entity("Recipes.Domain.Entities.RecipeCard", b =>
                 {
                     b.Navigation("Ingredients");
@@ -242,6 +407,8 @@ namespace Recipes.Persistance.Migrations
             modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
                 {
                     b.Navigation("FavouriteRecipes");
+
+                    b.Navigation("UserPermissions");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,8 +4,9 @@ using Recipes.Domain.Core.Repositories;
 
 namespace Recipes.Persistance.Repositories.Core
 {
-    public abstract class EntityRepository<T> : IEntityRepository<T>
-        where T : Entity
+    public abstract class EntityRepository<TEntity, TId> : IEntityRepository<TEntity, TId>
+        where TEntity : Entity<TId>
+        where TId : IEquatable<TId>
     {
         protected ApplicationDbContext DbContext;
         public EntityRepository(ApplicationDbContext applicationDbContext)
@@ -13,19 +14,19 @@ namespace Recipes.Persistance.Repositories.Core
             DbContext = applicationDbContext;
         }
 
-        public DbSet<T> Entities() => DbContext.Set<T>();
+        public DbSet<TEntity> Entities() => DbContext.Set<TEntity>();
 
-        public void Add(T entity)
+        public void Add(TEntity entity)
         {
             Entities().Add(entity);
         }
 
-        public void Update(T entity)
+        public void Update(TEntity entity)
         {
             Entities().Update(entity);
         }
 
-        public async Task<int> CountAsync(Specification<T>? spec = null, CancellationToken token = default)
+        public async Task<int> CountAsync(Specification<TEntity>? spec = null, CancellationToken token = default)
         {
             if (spec == null)
                 return await Entities().CountAsync(token);
@@ -33,7 +34,7 @@ namespace Recipes.Persistance.Repositories.Core
                 return await Entities().Where(spec.Criteria()).CountAsync();
         }
 
-        public void AddRange(IEnumerable<T> entities)
+        public void AddRange(IEnumerable<TEntity> entities)
         {
             Entities().AddRange(entities);
         }

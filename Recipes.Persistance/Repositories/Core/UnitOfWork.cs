@@ -1,4 +1,6 @@
-﻿using Recipes.Domain.Core;
+﻿using FluentValidation.Validators;
+using Microsoft.EntityFrameworkCore;
+using Recipes.Domain.Core;
 using Recipes.Domain.Core.Repositories;
 
 namespace Recipes.Persistance.Repositories.Core
@@ -10,6 +12,13 @@ namespace Recipes.Persistance.Repositories.Core
         {
             _dbContext = dbContext;
         }
+
+        public async Task<ITransaction> BeginTransactionAsync()
+        {
+            var transaction = await _dbContext.Database.BeginTransactionAsync();
+            return new DbTransaction(transaction);
+        }
+
         public async Task<int> SaveChangesAsync(CancellationToken token = default)
         {
             return await _dbContext.SaveChangesAsync(token);

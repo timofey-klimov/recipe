@@ -3,7 +3,7 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Domain.Repositories
 {
-    public interface IIngredientRepository : IAggregateRootRepository<Ingredient>
+    public interface IIngredientRepository : IAggregateRootRepository<Ingredient, int>
     {
     }
 }

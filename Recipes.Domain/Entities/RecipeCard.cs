@@ -6,7 +6,7 @@ using Recipes.Domain.ValueObjects;
 
 namespace Recipes.Domain.Entities
 {
-    public class RecipeCard : AggregateRoot
+    public class RecipeCard : AggregateRoot<int>
     {
         public static string EntityName => nameof(RecipeCard);
         public string Title { get; private set; }
@@ -16,6 +16,8 @@ namespace Recipes.Domain.Entities
         public string ImageSource { get; private set; }
 
         public DateTime CreateDate { get; private set; }
+
+        public bool IsAccepted { get; private set; }
 
         public MealEnumeration MealType { get; private set; }
 
@@ -82,6 +84,21 @@ namespace Recipes.Domain.Entities
             var stage = new CookingStage(this, imagePath, description);
             _stages.Add(stage);
             return stage;
+        }
+
+        /// <summary>
+        /// Подтверждение модерации
+        /// </summary>
+        /// <returns></returns>
+        public Result<RecipeCard> Accept(ConfirmationRequest confirmationRequest)
+        {
+            if (confirmationRequest.RecipeId == this.Id && confirmationRequest.Status == ConfirmationRequestStatus.Accepted)
+            {
+                IsAccepted = true;
+                return this;
+            }
+
+            return RecipeCardErrors.InvalidRequestStatus();
         }
     }   
 }
